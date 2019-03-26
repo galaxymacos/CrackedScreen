@@ -1,0 +1,154 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &8532909394846269692
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8532909394535986440}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65f16ec3152a41f4eb6eee0a7df1062d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &8532909395785704914
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8532909395785704915}
+  m_Layer: 0
+  m_Name: NPCs
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8532909395785704915
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8532909395785704914}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -479.65894, y: 3.791668, z: 0.8286639}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 8532909394535986435}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &8696438793124904225
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 8532909395785704915}
+    m_Modifications:
+    - target: {fileID: 1064273255647135785, guid: 9dd4e28365d799c4cbc1ef02d9b098dd,
+        type: 3}
+      propertyPath: m_Name
+      value: Master
+      objectReference: {fileID: 0}
+    - target: {fileID: 1064273255647135785, guid: 9dd4e28365d799c4cbc1ef02d9b098dd,
+        type: 3}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 145210783, guid: 9dd4e28365d799c4cbc1ef02d9b098dd, type: 3}
+      propertyPath: dialogues.Array.data[0].name
+      value: Yasuo
+      objectReference: {fileID: 0}
+    - target: {fileID: 1064273255647135778, guid: 9dd4e28365d799c4cbc1ef02d9b098dd,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -6.8410797
+      objectReference: {fileID: 0}
+    - target: {fileID: 1064273255647135778, guid: 9dd4e28365d799c4cbc1ef02d9b098dd,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -2.131668
+      objectReference: {fileID: 0}
+    - target: {fileID: 1064273255647135778, guid: 9dd4e28365d799c4cbc1ef02d9b098dd,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 1.1713362
+      objectReference: {fileID: 0}
+    - target: {fileID: 1064273255647135778, guid: 9dd4e28365d799c4cbc1ef02d9b098dd,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1064273255647135778, guid: 9dd4e28365d799c4cbc1ef02d9b098dd,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1064273255647135778, guid: 9dd4e28365d799c4cbc1ef02d9b098dd,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1064273255647135778, guid: 9dd4e28365d799c4cbc1ef02d9b098dd,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1064273255647135778, guid: 9dd4e28365d799c4cbc1ef02d9b098dd,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1064273255647135778, guid: 9dd4e28365d799c4cbc1ef02d9b098dd,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1064273255647135778, guid: 9dd4e28365d799c4cbc1ef02d9b098dd,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1064273255647135778, guid: 9dd4e28365d799c4cbc1ef02d9b098dd,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1064273255647135784, guid: 9dd4e28365d799c4cbc1ef02d9b098dd,
+        type: 3}
+      propertyPath: dialogues.Array.data[1].sentences.Array.data[0]
+      value: Don't worry, kid. We will take our revenge.
+      objectReference: {fileID: 0}
+    - target: {fileID: 1064273255647135784, guid: 9dd4e28365d799c4cbc1ef02d9b098dd,
+        type: 3}
+      propertyPath: dialogues.Array.data[1].name
+      value: Yasuo
+      objectReference: {fileID: 0}
+    - target: {fileID: 145210784, guid: 9dd4e28365d799c4cbc1ef02d9b098dd, type: 3}
+      propertyPath: firstBlock
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4027145974582266312, guid: 9dd4e28365d799c4cbc1ef02d9b098dd,
+        type: 3}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9dd4e28365d799c4cbc1ef02d9b098dd, type: 3}
+--- !u!1 &8532909394535986440 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1064273255647135785, guid: 9dd4e28365d799c4cbc1ef02d9b098dd,
+    type: 3}
+  m_PrefabInstance: {fileID: 8696438793124904225}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &8532909394535986435 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1064273255647135778, guid: 9dd4e28365d799c4cbc1ef02d9b098dd,
+    type: 3}
+  m_PrefabInstance: {fileID: 8696438793124904225}
+  m_PrefabAsset: {fileID: 0}

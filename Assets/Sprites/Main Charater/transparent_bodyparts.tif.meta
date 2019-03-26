@@ -1,0 +1,352 @@
+fileFormatVersion: 2
+guid: 8768d1a3c56b4e149893c249014ea3fd
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: transparent_bodyparts_0
+    21300002: transparent_bodyparts_1
+    21300004: transparent_bodyparts_2
+    21300006: transparent_bodyparts_3
+    21300008: transparent_bodyparts_4
+    21300010: transparent_bodyparts_5
+    21300012: transparent_bodyparts_6
+    21300014: transparent_bodyparts_7
+    21300016: transparent_bodyparts_8
+    21300018: transparent_bodyparts_9
+    21300020: transparent_bodyparts_10
+  externalObjects: {}
+  serializedVersion: 9
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: -1
+    aniso: -1
+    mipBias: -100
+    wrapU: 1
+    wrapV: 1
+    wrapW: -1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - serializedVersion: 2
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - serializedVersion: 2
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - serializedVersion: 2
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - serializedVersion: 2
+    buildTarget: Windows Store Apps
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: transparent_bodyparts_0
+      rect:
+        serializedVersion: 2
+        x: 137.9847
+        y: 2907
+        width: 1147.2375
+        height: 566.68945
+      alignment: 9
+      pivot: {x: 0.49947396, y: 0.49850938}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 638b08d7dcdd1f54f83a9f6b55f1ec54
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: transparent_bodyparts_1
+      rect:
+        serializedVersion: 2
+        x: 1440.8451
+        y: 2641
+        width: 469.0056
+        height: 664.3242
+      alignment: 9
+      pivot: {x: 0.49925795, y: 0.49825034}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0ab3f2566b751e74795e52104d98fa2e
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: transparent_bodyparts_2
+      rect:
+        serializedVersion: 2
+        x: 1929
+        y: 2798
+        width: 359
+        height: 491
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 30ec3d17365316e499248fb8233ce6ec
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: transparent_bodyparts_3
+      rect:
+        serializedVersion: 2
+        x: 467.94934
+        y: 1900.7129
+        width: 443.315
+        height: 797.9297
+      alignment: 9
+      pivot: {x: 0.49863115, y: 0.4985237}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ea9c13e80e7c1fa43be24e46db798d44
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: transparent_bodyparts_4
+      rect:
+        serializedVersion: 2
+        x: 959.89667
+        y: 1188
+        width: 398.7845
+        height: 832.1876
+      alignment: 9
+      pivot: {x: 0.4980214, y: 0.4992866}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9634812b185f9f44f89de9b01aec8f4c
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: transparent_bodyparts_5
+      rect:
+        serializedVersion: 2
+        x: 1622.8257
+        y: 1493
+        width: 218.95044
+        height: 556.4121
+      alignment: 9
+      pivot: {x: 0.49862513, y: 0.49783245}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b3e35b3380fc79a40b594f4e897741c2
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: transparent_bodyparts_6
+      rect:
+        serializedVersion: 2
+        x: 1830.8035
+        y: 1885.9999
+        width: 501.54688
+        height: 758.5333
+      alignment: 9
+      pivot: {x: 0.4978528, y: 0.49898946}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1cdba637368393d49a11bf0434f797bc
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: transparent_bodyparts_7
+      rect:
+        serializedVersion: 2
+        x: 228.97495
+        y: 149.99998
+        width: 717.34814
+        height: 1673.2167
+      alignment: 9
+      pivot: {x: 0.49839818, y: 0.4993376}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 97013f7590751344a8f7090ef5d458b0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: transparent_bodyparts_8
+      rect:
+        serializedVersion: 2
+        x: 969.8955
+        y: 324
+        width: 284.0332
+        height: 851.0292
+      alignment: 9
+      pivot: {x: 0.4967883, y: 0.49939534}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 076d9a20d97747149bd38e6548eec88e
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: transparent_bodyparts_9
+      rect:
+        serializedVersion: 2
+        x: 1697.8176
+        y: 447
+        width: 688.2322
+        height: 972.64453
+      alignment: 9
+      pivot: {x: 0.1766251, y: 0.4195892}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 85bfa9a66a3eaba41ab1cc1010c7796d
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: transparent_bodyparts_10
+      rect:
+        serializedVersion: 2
+        x: 1124.8789
+        y: 70
+        width: 383.37024
+        height: 188.14062
+      alignment: 9
+      pivot: {x: 0.49722424, y: 0.4943111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8dcc1ad9677383b42b03037434490f08
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 7f1a5516453042845b46d665d5dee7c6
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 636879481277013763
+  assetBundleName: 
+  assetBundleVariant: 
