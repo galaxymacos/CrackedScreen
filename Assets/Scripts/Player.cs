@@ -69,7 +69,6 @@ public class Player : MonoBehaviour
             GameUi.Instance.hpBar.fillAmount = hp / maxHp;
             if (hp <= 0)
             {
-                print("playing death animation");
                 GameManager.Instance.PlayerAnimator.PlayerStartDying();
             }    
         }

@@ -42,14 +42,19 @@ public class ArcherEnemy : Enemy {
         else
             patrolRight = false;
     }
+    
+    
 
     public override void TakeDamage(float damage) {
         if (dodging) {
             return;
         }
         if (isProbabilityEventHappens(dodgingProbability) && _enemyCurrentState == EnemyState.Standing) {
+            FlipAccordingToPosition();
             animator.SetTrigger("RollAttack");
-            
+            dodging = true;
+            print("Dodging");
+
             chargeNextAttack = true;
             return;
         }
@@ -63,7 +68,6 @@ public class ArcherEnemy : Enemy {
         }
         if (isProbabilityEventHappens(dodgingProbability)) {
             animator.SetTrigger("RollAttack");
-            
             chargeNextAttack = true;
             return;
         }
@@ -97,14 +101,19 @@ public class ArcherEnemy : Enemy {
         AudioManager.instance.PlaySfx("MinionDie");
         Destroy(gameObject);
     }
+    
+    
 
     [SerializeField] private float dodgingSpeed = 20f;
+//    private float dodgingTimeRemains;
     public override void Update() {
         base.Update();
         animator.SetBool("Idle", _enemyCurrentState == EnemyState.Standing);
 
-        if (dodging) {
-            FlipAccordingToPosition();
+        if (dodging)
+        {
+            print("Player is dodging");
+//            FlipAccordingToPosition();
             if (PlayerIsAtRight())
                 transform.Translate(-dodgingSpeed * Time.deltaTime, 0, 0);
             else
@@ -117,18 +126,18 @@ public class ArcherEnemy : Enemy {
         return PlayerProperty.playerPosition.x - transform.position.x > 0;
     }
 
-    private void FlipAccordingToPosition() {
+    public void FlipAccordingToPosition() {
         if (PlayerIsAtRight()) {
             Flip(true);
+            print("Enemy is facing right now");
         }
-        else {
+        else
+        {
             Flip(false);
+            print("Enemy is facing left now");
         }
     }
 
-    public void Dodge() {
-        dodging = true;
-    }
 
     public void UnDodge() {
         dodging = false;
@@ -137,8 +146,7 @@ public class ArcherEnemy : Enemy {
     public override void InteractWithPlayer() {
         if (StiffTimeRemain <= 0 && _enemyCurrentState == EnemyState.Standing) {
             if (PlayerInRange()) {
-                if (Time.time >= nextAttackTime) {
-                    FlipAccordingToPosition();
+                if (Time.time >= nextAttackTime && !dodging) {
                     animator.SetTrigger("Attack");
                     nextAttackTime = Time.time + 1 / attackSpeed;
                 }
@@ -184,40 +192,37 @@ public class ArcherEnemy : Enemy {
 
 
     public override void Move() {
-        if (animator.GetCurrentAnimatorStateInfo(0).IsName("Attack")) {
-            return;
-        }
-        var position = transform.position;
-        if (patrolRight) {
-            if (!dodging) {
-                Flip(true);
-
-            }
-            rb.velocity = new Vector3(patrolSpeed, rb.velocity.y, rb.velocity.z);
-            currentDistanceFromCenter += patrolSpeed * Time.deltaTime;
-            if (needTurnAround()) {
-                currentDistanceFromCenter = rightLimit;
-                floorExistsInFront = true;
-            }
-
-            if (currentDistanceFromCenter >= rightLimit) patrolRight = false;
-//                            print("Walking right");
-        }
-        else {
-            if (!dodging) {
-                Flip(false);
-            }
-//                rb.MovePosition(position + new Vector3(-patrolSpeed * Time.deltaTime, 0, 0));
-            rb.velocity = new Vector3(-patrolSpeed, rb.velocity.y, rb.velocity.z);
-            if (needTurnAround()) {
-                currentDistanceFromCenter = leftLimit;
-                floorExistsInFront = true;
-            }
-
-            currentDistanceFromCenter -= patrolSpeed * Time.deltaTime;
-            if (currentDistanceFromCenter <= leftLimit) patrolRight = true;
-//                            print("Walking left");
-        }
+//        if (animator.GetCurrentAnimatorStateInfo(0).IsName("Attack")||
+//            animator.GetCurrentAnimatorStateInfo(0).IsName("Dodge")) {
+//            return;
+//        }
+//        print("Enemy Moving");
+//        if (patrolRight) {
+//                Flip(true);
+//
+//            rb.velocity = new Vector3(patrolSpeed, rb.velocity.y, rb.velocity.z);
+//            currentDistanceFromCenter += patrolSpeed * Time.deltaTime;
+//            if (needTurnAround()) {
+//                currentDistanceFromCenter = rightLimit;
+//                floorExistsInFront = true;
+//            }
+//
+//            if (currentDistanceFromCenter >= rightLimit) patrolRight = false;
+////                            print("Walking right");
+//        }
+//        else {
+//                Flip(false);
+////                rb.MovePosition(position + new Vector3(-patrolSpeed * Time.deltaTime, 0, 0));
+//            rb.velocity = new Vector3(-patrolSpeed, rb.velocity.y, rb.velocity.z);
+//            if (needTurnAround()) {
+//                currentDistanceFromCenter = leftLimit;
+//                floorExistsInFront = true;
+//            }
+//
+//            currentDistanceFromCenter -= patrolSpeed * Time.deltaTime;
+//            if (currentDistanceFromCenter <= leftLimit) patrolRight = true;
+////                            print("Walking left");
+//        }
     }
 
     public void AnimateEnemy(EnemyState enemyState) {
