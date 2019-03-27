@@ -107,7 +107,7 @@ public abstract class Enemy : MonoBehaviour
         }
         else
         {
-            print("Floating text is missing");
+//            print("Floating text is missing");
         }
         
     }
@@ -130,7 +130,7 @@ public abstract class Enemy : MonoBehaviour
         {
             return;
         }
-        print("Try to knock up the enemy");
+//        print("Try to knock up the enemy");
         rb.AddForce(force);
         ChangeEnemyState(EnemyState.GotHitToAir);
     }

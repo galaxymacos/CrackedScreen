@@ -25,7 +25,6 @@ public class RollingStrike : BossAbility
         if (startJumping)
         {
             _rigidbody.AddForce(0,-gravity*Time.fixedDeltaTime,0);
-            print("add force downwards");
             transform.position = Vector3.Lerp(transform.position,PlayerProperty.playerPosition,0.02f);
         }
 

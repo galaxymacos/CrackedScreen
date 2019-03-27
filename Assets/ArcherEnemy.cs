@@ -2,19 +2,19 @@
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class ArcherEnemy : Enemy
-{
+public class ArcherEnemy : Enemy {
     private Animator animator;
     [SerializeField] private GameObject arrow;
 
     [SerializeField] private Transform arrowSpawnPoint;
 
     [SerializeField] private EnemyDetector AttackHitBox;
+    [SerializeField] private float dodgingProbability = 0.8f;
+    private bool dodging;
+
 
     private bool chargeNextAttack;
     private float currentDistanceFromCenter;
-
-    private bool dodging;
     internal bool floorExistsInFront;
     public float leftLimit = -5f;
     private bool patrolRight = true;
@@ -24,8 +24,7 @@ public class ArcherEnemy : Enemy
     public float rightLimit = 5f;
 
 
-    private bool needTurnAround()
-    {
+    private bool needTurnAround() {
         if (!isGrounded()) return false;
 
         if (!floorExistsInFront) return true;
@@ -33,8 +32,7 @@ public class ArcherEnemy : Enemy
         return false;
     }
 
-    protected override void Start()
-    {
+    protected override void Start() {
         animator = GetComponent<Animator>();
         OnChangeEnemyStateCallback += AnimateEnemy;
         base.Start();
@@ -45,16 +43,48 @@ public class ArcherEnemy : Enemy
             patrolRight = false;
     }
 
-    private bool PlayerInRange()
-    {
+    public override void TakeDamage(float damage) {
+        if (dodging) {
+            return;
+        }
+        if (isProbabilityEventHappens(dodgingProbability) && _enemyCurrentState == EnemyState.Standing) {
+            animator.SetTrigger("RollAttack");
+            
+            chargeNextAttack = true;
+            return;
+        }
+
+        base.TakeDamage(damage);
+    }
+
+    public override void KnockUp(Vector3 force) {
+        if (dodging) {
+            return;
+        }
+        if (isProbabilityEventHappens(dodgingProbability)) {
+            animator.SetTrigger("RollAttack");
+            
+            chargeNextAttack = true;
+            return;
+        }
+        base.KnockUp(force);
+    }
+
+    private bool isProbabilityEventHappens(float odd) {
+        var randomNum = Random.Range(0, 100);
+        if (randomNum > odd*100)
+            return false;
+        return true;
+    }
+
+    private bool PlayerInRange() {
         foreach (var col in AttackHitBox._enemiesInRange)
             if (col.gameObject == PlayerProperty.player)
                 return true;
         return false;
     }
 
-    public bool isGrounded()
-    {
+    public bool isGrounded() {
         LayerMask groundLayer = 1 << 11;
         var isConnectingToGround = Physics.Raycast(transform.position, Vector3.down,
             GetComponent<BoxCollider>().size.y / 2 + GetComponent<BoxCollider>().center.y,
@@ -62,83 +92,77 @@ public class ArcherEnemy : Enemy
         return isConnectingToGround;
     }
 
-    protected override void Die()
-    {
+    protected override void Die() {
         spriteRenderer.enabled = false;
         AudioManager.instance.PlaySfx("MinionDie");
         Destroy(gameObject);
     }
 
-    public override void Update()
-    {
+    [SerializeField] private float dodgingSpeed = 20f;
+    public override void Update() {
         base.Update();
         animator.SetBool("Idle", _enemyCurrentState == EnemyState.Standing);
 
-        if (dodging)
-        {
-            if (isFacingRight)
-                transform.Translate(-5 * Time.deltaTime, 0, 0);
+        if (dodging) {
+            FlipAccordingToPosition();
+            if (PlayerIsAtRight())
+                transform.Translate(-dodgingSpeed * Time.deltaTime, 0, 0);
             else
-                transform.Translate(5 * Time.deltaTime, 0, 0);
+                transform.Translate(dodgingSpeed * Time.deltaTime, 0, 0);
         }
     }
 
-    public void Dodge()
-    {
+
+    private bool PlayerIsAtRight() {
+        return PlayerProperty.playerPosition.x - transform.position.x > 0;
+    }
+
+    private void FlipAccordingToPosition() {
+        if (PlayerIsAtRight()) {
+            Flip(true);
+        }
+        else {
+            Flip(false);
+        }
+    }
+
+    public void Dodge() {
         dodging = true;
     }
 
-    public void UnDodge()
-    {
+    public void UnDodge() {
         dodging = false;
     }
 
-    public override void InteractWithPlayer()
-    {
-        if (StiffTimeRemain <= 0 && _enemyCurrentState == EnemyState.Standing)
-        {
-            if (PlayerInRange())
-            {
-                if (Time.time >= nextAttackTime)
-                {
-                    float random = Random.Range(0, 100);
-                    if (random > 50)
-                    {
-                        animator.SetTrigger("Attack");
-                    }
-                    else
-                    {
-                        animator.SetTrigger("RollAttack");
-                        chargeNextAttack = true;
-                    }
-
+    public override void InteractWithPlayer() {
+        if (StiffTimeRemain <= 0 && _enemyCurrentState == EnemyState.Standing) {
+            if (PlayerInRange()) {
+                if (Time.time >= nextAttackTime) {
+                    FlipAccordingToPosition();
+                    animator.SetTrigger("Attack");
                     nextAttackTime = Time.time + 1 / attackSpeed;
                 }
-                else
-                {
+                else {
                     Move();
+                    
                     animator.SetFloat("Velocity", rb.velocity.x);
                 }
             }
-            else
-            {
+            else {
                 Move();
                 animator.SetFloat("Velocity", rb.velocity.x);
             }
         }
     }
 
-    public void SpawnTheFuckingArrow()
-    {
-        print("Spawn arrow");
+    public void SpawnTheFuckingArrow() {
         var arrowInstantiate = Instantiate(arrow, arrowSpawnPoint.position, Quaternion.identity);
         arrowInstantiate.GetComponent<Arrow>().flyDirection =
             (PlayerProperty.playerPosition - transform.position).normalized;
         if ((PlayerProperty.playerPosition - transform.position).normalized.x < 0)
             arrowInstantiate.GetComponent<SpriteRenderer>().flipX = true;
 
-        if (chargeNextAttack)
-        {
+        if (chargeNextAttack) {
             arrowInstantiate.GetComponent<Arrow>().flySpeed *= 2;
             chargeNextAttack = false;
             var SecondArrow = Instantiate(arrow, arrowSpawnPoint.position + new Vector3(0, -2, 0), Quaternion.identity);
@@ -159,20 +183,19 @@ public class ArcherEnemy : Enemy
     }
 
 
-    public override void Move()
-    {
-        if (animator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
-        {
+    public override void Move() {
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName("Attack")) {
             return;
         }
         var position = transform.position;
-        if (patrolRight)
-        {
-            Flip(true);
+        if (patrolRight) {
+            if (!dodging) {
+                Flip(true);
+
+            }
             rb.velocity = new Vector3(patrolSpeed, rb.velocity.y, rb.velocity.z);
             currentDistanceFromCenter += patrolSpeed * Time.deltaTime;
-            if (needTurnAround())
-            {
+            if (needTurnAround()) {
                 currentDistanceFromCenter = rightLimit;
                 floorExistsInFront = true;
             }
@@ -180,13 +203,13 @@ public class ArcherEnemy : Enemy
             if (currentDistanceFromCenter >= rightLimit) patrolRight = false;
 //                            print("Walking right");
         }
-        else
-        {
-            Flip(false);
+        else {
+            if (!dodging) {
+                Flip(false);
+            }
 //                rb.MovePosition(position + new Vector3(-patrolSpeed * Time.deltaTime, 0, 0));
             rb.velocity = new Vector3(-patrolSpeed, rb.velocity.y, rb.velocity.z);
-            if (needTurnAround())
-            {
+            if (needTurnAround()) {
                 currentDistanceFromCenter = leftLimit;
                 floorExistsInFront = true;
             }
@@ -197,10 +220,8 @@ public class ArcherEnemy : Enemy
         }
     }
 
-    public void AnimateEnemy(EnemyState enemyState)
-    {
-        switch (enemyState)
-        {
+    public void AnimateEnemy(EnemyState enemyState) {
+        switch (enemyState) {
             case EnemyState.Standing:
                 animator.SetTrigger("Idle");
                 break;

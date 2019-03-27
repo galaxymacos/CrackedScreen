@@ -760,6 +760,7 @@
         <e p="bin" t="ExcludeRecursive" />
       </e>
     </e>
+    <e p="C:\Users\galax\.Rider2019.1\config\extensions" t="IncludeRecursive" />
     <e p="C:\Users\galax\.Rider2019.1\system\extResources" t="IncludeRecursive" />
     <e p="C:\Users\galax\.Rider2019.1\system\resharper-host\local\Transient\ReSharperHost\v191\SolutionCaches\_CrackedScreen.2064702761.00" t="ExcludeRecursive" />
   </component>

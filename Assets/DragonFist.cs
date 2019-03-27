@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography.X509Certificates;
 using UnityEngine;
 using UnityEngine.SocialPlatforms;
 
@@ -9,13 +10,14 @@ public class DragonFist : BossAbility
 
     private bool isDashingForward;
 
-    [SerializeField] private float dashingSpeed = 10f;
+    [SerializeField] private float dashingSpeed = 30f;
 
     [SerializeField] private float dragonFistFlyKnockUpForce = 1000f;
 
     [SerializeField] private EnemyDetector dragonFistHitBox;
 
     [SerializeField] private float followHomeRunChance = 0.5f;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -58,8 +60,10 @@ public class DragonFist : BossAbility
         {
             PlayerProperty.playerClass.TakeDamage(10);
             PlayerProperty.playerClass.GetKnockOff(transform.position,new Vector3(0,dragonFistFlyKnockUpForce,0));
+            animator.SetBool("DragonFistHitPlayer",true);
         }
     }
+
 
     public void decideIfFollowHomerun()
     {
