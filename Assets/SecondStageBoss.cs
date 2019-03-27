@@ -223,7 +223,6 @@ public class SecondStageBoss : Enemy
     private Vector3 PlayerDirectionInPlane()
     {
         Vector3 playerDirection = (GameManager.Instance.player.transform.position - transform.position).normalized;
-        print(playerDirection);
        return new Vector3(playerDirection.x,0,playerDirection.z);
     }
 

@@ -5,34 +5,33 @@ using Random = UnityEngine.Random;
 public class ArcherEnemy : Enemy
 {
     private Animator animator;
-    private bool patrolRight = true;
-    private float currentDistanceFromCenter;
-    public float leftLimit = -5f;
-    public float rightLimit = 5f;
-
-    [SerializeField] private EnemyDetector AttackHitBox;
-    internal bool floorExistsInFront;
     [SerializeField] private GameObject arrow;
 
+    [SerializeField] private Transform arrowSpawnPoint;
+
+    [SerializeField] private EnemyDetector AttackHitBox;
+
+    private bool chargeNextAttack;
+    private float currentDistanceFromCenter;
+
+    private bool dodging;
+    internal bool floorExistsInFront;
+    public float leftLimit = -5f;
+    private bool patrolRight = true;
+
+
+    [SerializeField] private float patrolSpeed = 5f;
+    public float rightLimit = 5f;
 
 
     private bool needTurnAround()
     {
-        if (!isGrounded())
-        {
-            return false;
-        }
+        if (!isGrounded()) return false;
 
-        if (!floorExistsInFront)
-        {
-            return true;
-        }
+        if (!floorExistsInFront) return true;
 
         return false;
     }
-
-
-    [SerializeField] private float patrolSpeed = 5f;
 
     protected override void Start()
     {
@@ -41,33 +40,24 @@ public class ArcherEnemy : Enemy
         base.Start();
         currentDistanceFromCenter = Random.Range(leftLimit, rightLimit);
         if (Random.Range(0, 2) == 0)
-        {
             patrolRight = true;
-        }
         else
-        {
             patrolRight = false;
-        }
     }
 
     private bool PlayerInRange()
     {
-        foreach (Collider col in AttackHitBox._enemiesInRange)
-        {
+        foreach (var col in AttackHitBox._enemiesInRange)
             if (col.gameObject == PlayerProperty.player)
-            {
                 return true;
-            }
-
-        }
         return false;
-
     }
 
     public bool isGrounded()
     {
         LayerMask groundLayer = 1 << 11;
-        bool isConnectingToGround = Physics.Raycast(transform.position, Vector3.down, GetComponent<BoxCollider>().size.y/2+GetComponent<BoxCollider>().center.y,
+        var isConnectingToGround = Physics.Raycast(transform.position, Vector3.down,
+            GetComponent<BoxCollider>().size.y / 2 + GetComponent<BoxCollider>().center.y,
             groundLayer);
         return isConnectingToGround;
     }
@@ -77,29 +67,21 @@ public class ArcherEnemy : Enemy
         spriteRenderer.enabled = false;
         AudioManager.instance.PlaySfx("MinionDie");
         Destroy(gameObject);
-
     }
 
-    private bool dodging;
     public override void Update()
     {
         base.Update();
-        animator.SetBool("Idle",_enemyCurrentState == EnemyState.Standing);
+        animator.SetBool("Idle", _enemyCurrentState == EnemyState.Standing);
 
         if (dodging)
         {
             if (isFacingRight)
-            {
-                transform.Translate(-5*Time.deltaTime,0,0);
-            }
+                transform.Translate(-5 * Time.deltaTime, 0, 0);
             else
-            {
-                transform.Translate(5*Time.deltaTime,0,0);
-            }
+                transform.Translate(5 * Time.deltaTime, 0, 0);
         }
     }
-
-    private bool chargeNextAttack;
 
     public void Dodge()
     {
@@ -110,90 +92,91 @@ public class ArcherEnemy : Enemy
     {
         dodging = false;
     }
-    
+
     public override void InteractWithPlayer()
     {
-        if (StiffTimeRemain<=0 && _enemyCurrentState == EnemyState.Standing)
+        if (StiffTimeRemain <= 0 && _enemyCurrentState == EnemyState.Standing)
         {
             if (PlayerInRange())
             {
                 if (Time.time >= nextAttackTime)
                 {
-                    animator.SetTrigger("Attack");
-                    nextAttackTime = Time.time + 1 / attackSpeed;
-                }
-                else
-                {
-                    if (!animator.GetCurrentAnimatorStateInfo(0).IsName("Attack") && !chargeNextAttack)
+                    float random = Random.Range(0, 100);
+                    if (random > 50)
+                    {
+                        animator.SetTrigger("Attack");
+                    }
+                    else
                     {
                         animator.SetTrigger("RollAttack");
                         chargeNextAttack = true;
                     }
+
+                    nextAttackTime = Time.time + 1 / attackSpeed;
+                }
+                else
+                {
+                    Move();
+                    animator.SetFloat("Velocity", rb.velocity.x);
                 }
             }
             else
             {
                 Move();
-                animator.SetFloat("Velocity",rb.velocity.x);
+                animator.SetFloat("Velocity", rb.velocity.x);
             }
         }
     }
 
-    [SerializeField] private Transform arrowSpawnPoint;
-    
     public void SpawnTheFuckingArrow()
     {
         print("Spawn arrow");
-        var arrowInstantiate = Instantiate(arrow,arrowSpawnPoint.position,Quaternion.identity);
+        var arrowInstantiate = Instantiate(arrow, arrowSpawnPoint.position, Quaternion.identity);
         arrowInstantiate.GetComponent<Arrow>().flyDirection =
             (PlayerProperty.playerPosition - transform.position).normalized;
         if ((PlayerProperty.playerPosition - transform.position).normalized.x < 0)
-        {
             arrowInstantiate.GetComponent<SpriteRenderer>().flipX = true;
-        }
 
         if (chargeNextAttack)
         {
             arrowInstantiate.GetComponent<Arrow>().flySpeed *= 2;
             chargeNextAttack = false;
-            var SecondArrow = Instantiate(arrow,arrowSpawnPoint.position + new Vector3(0,-2,0),Quaternion.identity);
+            var SecondArrow = Instantiate(arrow, arrowSpawnPoint.position + new Vector3(0, -2, 0), Quaternion.identity);
             SecondArrow.GetComponent<Arrow>().flyDirection =
                 (PlayerProperty.playerPosition - transform.position).normalized;
             SecondArrow.GetComponent<Arrow>().flySpeed *= 2;
 
             if ((PlayerProperty.playerPosition - transform.position).normalized.x < 0)
-            {
                 SecondArrow.GetComponent<SpriteRenderer>().flipX = true;
-            }
-            
-            var thirdArrow = Instantiate(arrow,arrowSpawnPoint.position + new Vector3(0,2,0),Quaternion.identity);
+
+            var thirdArrow = Instantiate(arrow, arrowSpawnPoint.position + new Vector3(0, 2, 0), Quaternion.identity);
             thirdArrow.GetComponent<Arrow>().flyDirection =
                 (PlayerProperty.playerPosition - transform.position).normalized;
             thirdArrow.GetComponent<Arrow>().flySpeed *= 2;
             if ((PlayerProperty.playerPosition - transform.position).normalized.x < 0)
-            {
                 thirdArrow.GetComponent<SpriteRenderer>().flipX = true;
-            }
-            
-
         }
-        
     }
 
-   
+
     public override void Move()
     {
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
+        {
+            return;
+        }
         var position = transform.position;
         if (patrolRight)
         {
             Flip(true);
-            rb.velocity = new Vector3(patrolSpeed,rb.velocity.y,rb.velocity.z);
+            rb.velocity = new Vector3(patrolSpeed, rb.velocity.y, rb.velocity.z);
             currentDistanceFromCenter += patrolSpeed * Time.deltaTime;
             if (needTurnAround())
             {
                 currentDistanceFromCenter = rightLimit;
                 floorExistsInFront = true;
             }
+
             if (currentDistanceFromCenter >= rightLimit) patrolRight = false;
 //                            print("Walking right");
         }
@@ -201,7 +184,7 @@ public class ArcherEnemy : Enemy
         {
             Flip(false);
 //                rb.MovePosition(position + new Vector3(-patrolSpeed * Time.deltaTime, 0, 0));
-            rb.velocity = new Vector3(-patrolSpeed,rb.velocity.y,rb.velocity.z);
+            rb.velocity = new Vector3(-patrolSpeed, rb.velocity.y, rb.velocity.z);
             if (needTurnAround())
             {
                 currentDistanceFromCenter = leftLimit;
