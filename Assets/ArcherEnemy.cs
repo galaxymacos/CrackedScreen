@@ -122,21 +122,9 @@ public class ArcherEnemy : Enemy {
     }
 
 
-    private bool PlayerIsAtRight() {
-        return PlayerProperty.playerPosition.x - transform.position.x > 0;
-    }
+    
 
-    public void FlipAccordingToPosition() {
-        if (PlayerIsAtRight()) {
-            Flip(true);
-            print("Enemy is facing right now");
-        }
-        else
-        {
-            Flip(false);
-            print("Enemy is facing left now");
-        }
-    }
+    
 
 
     public void UnDodge() {
@@ -192,37 +180,34 @@ public class ArcherEnemy : Enemy {
 
 
     public override void Move() {
-//        if (animator.GetCurrentAnimatorStateInfo(0).IsName("Attack")||
-//            animator.GetCurrentAnimatorStateInfo(0).IsName("Dodge")) {
-//            return;
-//        }
-//        print("Enemy Moving");
-//        if (patrolRight) {
-//                Flip(true);
-//
-//            rb.velocity = new Vector3(patrolSpeed, rb.velocity.y, rb.velocity.z);
-//            currentDistanceFromCenter += patrolSpeed * Time.deltaTime;
-//            if (needTurnAround()) {
-//                currentDistanceFromCenter = rightLimit;
-//                floorExistsInFront = true;
-//            }
-//
-//            if (currentDistanceFromCenter >= rightLimit) patrolRight = false;
-////                            print("Walking right");
-//        }
-//        else {
-//                Flip(false);
-////                rb.MovePosition(position + new Vector3(-patrolSpeed * Time.deltaTime, 0, 0));
-//            rb.velocity = new Vector3(-patrolSpeed, rb.velocity.y, rb.velocity.z);
-//            if (needTurnAround()) {
-//                currentDistanceFromCenter = leftLimit;
-//                floorExistsInFront = true;
-//            }
-//
-//            currentDistanceFromCenter -= patrolSpeed * Time.deltaTime;
-//            if (currentDistanceFromCenter <= leftLimit) patrolRight = true;
-////                            print("Walking left");
-//        }
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName("Attack")||
+            animator.GetCurrentAnimatorStateInfo(0).IsName("Dodge")) {
+            return;
+        }
+        print("Enemy Moving");
+        if (patrolRight) {
+                Flip(true);
+
+            rb.velocity = new Vector3(patrolSpeed, rb.velocity.y, rb.velocity.z);
+            currentDistanceFromCenter += patrolSpeed * Time.deltaTime;
+            if (needTurnAround()) {
+                currentDistanceFromCenter = rightLimit;
+                floorExistsInFront = true;
+            }
+
+            if (currentDistanceFromCenter >= rightLimit) patrolRight = false;
+        }
+        else {
+                Flip(false);
+            rb.velocity = new Vector3(-patrolSpeed, rb.velocity.y, rb.velocity.z);
+            if (needTurnAround()) {
+                currentDistanceFromCenter = leftLimit;
+                floorExistsInFront = true;
+            }
+
+            currentDistanceFromCenter -= patrolSpeed * Time.deltaTime;
+            if (currentDistanceFromCenter <= leftLimit) patrolRight = true;
+        }
     }
 
     public void AnimateEnemy(EnemyState enemyState) {

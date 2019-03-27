@@ -131,8 +131,29 @@ public abstract class Enemy : MonoBehaviour
             return;
         }
 //        print("Try to knock up the enemy");
+        if (_enemyCurrentState == EnemyState.GotHitToAir)
+        {
+            GetComponent<Animator>().SetTrigger("HitToAir");
+        }
+        FlipAccordingToPosition();
         rb.AddForce(force);
         ChangeEnemyState(EnemyState.GotHitToAir);
+    }
+    
+    public void FlipAccordingToPosition() {
+        if (PlayerIsAtRight()) {
+            Flip(true);
+            print("Enemy is facing right now");
+        }
+        else
+        {
+            Flip(false);
+            print("Enemy is facing left now");
+        }
+    }
+    
+    public bool PlayerIsAtRight() {
+        return PlayerProperty.playerPosition.x - transform.position.x > 0;
     }
 
     /// <summary>
