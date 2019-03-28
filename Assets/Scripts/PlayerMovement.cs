@@ -219,6 +219,7 @@ public class PlayerMovement : MonoBehaviour
             }
             else
             {
+                
                 movement = new Vector3(
                     horizontalMovement * moveSpeed * Time.fixedDeltaTime,
                     0,

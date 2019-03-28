@@ -71,6 +71,7 @@ public class SecondStageBoss : Enemy
     {
         base.Update();
         animator.SetBool("AnimationPlaying", animationPlaying());
+        
     }
 
 // Start is called before the first frame update
@@ -114,6 +115,7 @@ public class SecondStageBoss : Enemy
             {
                 if (attackCooldownUp() && !animationPlaying())
                 {
+                    FlipAccordingToPosition();
                     rb.velocity = new Vector3(0,rb.velocity.y,0);
                     animator.SetTrigger("Attack");
 
@@ -180,9 +182,12 @@ public class SecondStageBoss : Enemy
         return Time.time >= nextAttackTime;
     }
 
+    [SerializeField] private EnemyDetector playerInAttackRangeDetector;
+    private bool playerInAttackRange => playerInAttackRangeDetector.playerInRange();
+    
     private void FixedUpdate()
     {
-        if (canMove && _enemyCurrentState == EnemyState.Standing)
+        if (canMove && _enemyCurrentState == EnemyState.Standing )
         {
             Move();
         }
@@ -191,10 +196,14 @@ public class SecondStageBoss : Enemy
 
     public override void Move()
     {
+        if (animationPlaying()) {
+            return;
+        }
         if (moveTimeRemainsThisRound > 0)
         {
-            if (moveTowardsPlayer)
+            if (moveTowardsPlayer && !playerInAttackRange)
             {
+                print("Move");
 //                rb.MovePosition(transform.position + PlayerDirectionInPlane()*moveSpeed*Time.fixedDeltaTime);
                 rb.velocity = new Vector3(PlayerDirectionInPlane().x * moveSpeed,rb.velocity.y,PlayerDirectionInPlane().z*moveSpeed);
 //                transform.Translate(PlayerDirectionInPlane()*moveSpeed*Time.deltaTime);
