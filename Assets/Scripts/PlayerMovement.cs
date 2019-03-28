@@ -334,7 +334,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (other.gameObject.CompareTag("MovingPlatform"))
         {
-            transform.parent = other.transform;
+            transform.parent = other.transform.Find("PlatformNode").transform;
         }
     }
 

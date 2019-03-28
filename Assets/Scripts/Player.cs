@@ -37,9 +37,14 @@ public class Player : MonoBehaviour
 
     [SerializeField] private float invincibieTime = 2f;
     private float lastTimeTakeDamage;
-    internal float lastTimeKnockOff;
+    private float lastTimeKnockOff;
     private static readonly int knockOff = Animator.StringToHash("Knock Off");
 
+    public void ResetInvincibleTime()
+    {
+        lastTimeKnockOff = 0;
+        lastTimeTakeDamage = 0;
+    }
     public void TakeDamage(int damage)
     {
         if (lastTimeTakeDamage + invincibieTime > Time.time)

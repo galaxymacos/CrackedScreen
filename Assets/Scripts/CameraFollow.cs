@@ -17,7 +17,7 @@ public class CameraFollow : MonoBehaviour
         GameManager.Instance.OnSceneChangeCallback += RotateCamera;
     }
 
-    private void FixedUpdate()
+    private void LateUpdate()
     {
         Vector3 desiredPosition;
         if (GameManager.Instance.is3D)
