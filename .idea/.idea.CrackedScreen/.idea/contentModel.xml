@@ -465,6 +465,7 @@
           <e p="UnLockFirstBlock.cs" t="Include" />
         </e>
         <e p="SecondBossAnimator.cs" t="Include" />
+        <e p="SecondBossAttack.cs" t="Include" />
         <e p="SecondStageBoss.cs" t="Include" />
         <e p="SelfDropPanel.cs" t="Include" />
         <e p="SnowLotus.cs" t="Include" />
