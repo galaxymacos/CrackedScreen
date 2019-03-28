@@ -135,12 +135,16 @@ public abstract class Enemy : MonoBehaviour
         {
             GetComponent<Animator>().SetTrigger("HitToAir");
         }
-        FlipAccordingToPosition();
+        FaceBasedOnPlayerPosition();
         rb.AddForce(force);
         ChangeEnemyState(EnemyState.GotHitToAir);
     }
     
-    public void FlipAccordingToPosition() {
+    public void FaceBasedOnPlayerPosition() {
+        if (AnimationPlaying())    // Can't change facing when boss is using its ability
+        {
+            return;
+        }
         if (PlayerIsAtRight()) {
             Flip(true);
             print("Enemy is facing right now");
@@ -249,6 +253,11 @@ public abstract class Enemy : MonoBehaviour
     /// </summary>
     public abstract void Move();
 
+    /// <summary>
+    /// This method return whether the player is current playing an ability animation
+    /// </summary>
+    /// <returns></returns>
+    public abstract bool AnimationPlaying();
 
     public void Attack()
     {

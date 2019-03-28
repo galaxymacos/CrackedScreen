@@ -70,26 +70,14 @@ public class SecondStageBoss : Enemy
     public override void Update()
     {
         base.Update();
-        animator.SetBool("AnimationPlaying", animationPlaying());
+        animator.SetBool("AnimationPlaying", AnimationPlaying());
         
+
     }
 
 // Start is called before the first frame update
-    private bool canMove;
-    private bool isplayingAnimation;
 
-    public void LockEnemyMove()
-    {
-        isplayingAnimation = true;
-    }
-
-    public void ReleaseEnemyMove()
-    {
-        isplayingAnimation = false;
-    }
-
-
-    private bool animationPlaying()
+    public override bool AnimationPlaying()
     {
         return animator.GetCurrentAnimatorStateInfo(0).IsName("Attack") ||
                animator.GetCurrentAnimatorStateInfo(0).IsName("RollingStrike") ||
@@ -113,9 +101,8 @@ public class SecondStageBoss : Enemy
         {
             if (autoAttackRange.playerInRange())
             {
-                if (attackCooldownUp() && !animationPlaying())
+                if (attackCooldownUp() && !AnimationPlaying())
                 {
-                    FlipAccordingToPosition();
                     rb.velocity = new Vector3(0,rb.velocity.y,0);
                     animator.SetTrigger("Attack");
 
@@ -125,32 +112,23 @@ public class SecondStageBoss : Enemy
 
             SpecialAttack();
         }
-        
-        
-        
 
-        if (!animationPlaying())
-        {
-            ReleaseEnemyMove();
-            ChangeFacing(rb.velocity.x);
-        }
-        else
-        {
-            LockEnemyMove();
-
-        }
-        canMove = !isStiffed && !isplayingAnimation;
-        
         animator.SetFloat("HorizontalVelocity",rb.velocity.x);
+    }
+
+    public bool CanMove()
+    {
+        return !isStiffed && !AnimationPlaying() && _enemyCurrentState == EnemyState.Standing;
     }
 
     private void SpecialAttack()
     {
+        FaceBasedOnPlayerPosition();
         specialAttackTimeRemains -= Time.deltaTime;
         if (specialAttackTimeRemains <= 0)
         {
             
-            if (!animationPlaying())
+            if (!AnimationPlaying())
             {
                 specialAttackTimeRemains = specialAttackInterval;
 //                int randomAbilityIndex = Random.Range(0, specialAttackAnimationNames.Length);
@@ -161,17 +139,9 @@ public class SecondStageBoss : Enemy
         }
     }
 
-    private void ChangeFacing(float horizontalSpeed)
+    private void ChangeFacingDirectionAccordingToMovement()
     {
-        if (horizontalSpeed>0)
-        {
-            Flip(true);
-        }
-
-        if (horizontalSpeed<0)
-        {
-            Flip(false);
-        }
+        Flip(rb.velocity.x > 0);
     }
 
     
@@ -187,42 +157,57 @@ public class SecondStageBoss : Enemy
     
     private void FixedUpdate()
     {
-        if (canMove && _enemyCurrentState == EnemyState.Standing )
+        if (CanMove())
         {
             Move();
+            FaceBasedOnMoveDirection();
+        }
+        else
+        {
+            FaceBasedOnPlayerPosition();
         }
  
     }
 
+    private void FaceBasedOnMoveDirection()
+    {
+        if (rb.velocity.x > 0)
+        {
+            Flip(true);
+        }
+        else
+        {
+            Flip(false);
+        }
+    }
+
+    /// <summary>
+    /// Was called in FixedUpdate()
+    /// </summary>
     public override void Move()
     {
-        if (animationPlaying()) {
-            return;
-        }
-        if (moveTimeRemainsThisRound > 0)
-        {
-            if (moveTowardsPlayer && !playerInAttackRange)
+            
+            if (!playerInAttackRange)
             {
                 print("Move");
 //                rb.MovePosition(transform.position + PlayerDirectionInPlane()*moveSpeed*Time.fixedDeltaTime);
                 rb.velocity = new Vector3(PlayerDirectionInPlane().x * moveSpeed,rb.velocity.y,PlayerDirectionInPlane().z*moveSpeed);
 //                transform.Translate(PlayerDirectionInPlane()*moveSpeed*Time.deltaTime);
-                moveTimeRemainsThisRound -= Time.fixedDeltaTime;    
             }
-            else
-            {
-//                rb.MovePosition(transform.position-PlayerDirectionInPlane()*moveSpeed*Time.fixedDeltaTime);
-                rb.velocity = new Vector3(-PlayerDirectionInPlane().x * moveSpeed,rb.velocity.y,PlayerDirectionInPlane().z*moveSpeed);
-
-
-                moveTimeRemainsThisRound -= Time.fixedDeltaTime;
-            }
-                
-        }
-        else
-        {
-            ChangeBossMovementDirectionInRandom();
-        }
+//            else
+//            {
+////                rb.MovePosition(transform.position-PlayerDirectionInPlane()*moveSpeed*Time.fixedDeltaTime);
+//                rb.velocity = new Vector3(-PlayerDirectionInPlane().x * moveSpeed,rb.velocity.y,PlayerDirectionInPlane().z*moveSpeed);
+//
+//
+//                moveTimeRemainsThisRound -= Time.fixedDeltaTime;
+//            }
+//                
+//        }
+//        else
+//        {
+//            ChangeMoveDir();
+//        }
     }
 
     /// <summary>
@@ -235,12 +220,16 @@ public class SecondStageBoss : Enemy
        return new Vector3(playerDirection.x,0,playerDirection.z);
     }
 
-    private void ChangeBossMovementDirectionInRandom()
+    private void ChangeMoveDir()
     {
         int randomNumber = Random.Range(0, 100);
         if (randomNumber <= movingTowardsPlayerPercentage*100)
         {
             moveTowardsPlayer = true;
+        }
+        else
+        {
+            moveTowardsPlayer = false;
         }
 
         moveTimeRemainsThisRound = moveTimeInARow;

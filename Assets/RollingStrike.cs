@@ -19,7 +19,8 @@ public class RollingStrike : BossAbility
         animator = GetComponent<Animator>();
         _rigidbody = GetComponent<Rigidbody>();
     }
-    
+
+
     private void FixedUpdate()
     {
         if (startJumping)
@@ -45,6 +46,10 @@ public class RollingStrike : BossAbility
         }
     }
 
+    public void RollingStrikeInitialized()
+    {
+        JumpOnPlayer();
+    }
     public void JumpOnPlayer()
     {
         _rigidbody.AddForce(0,jumpForce,0);

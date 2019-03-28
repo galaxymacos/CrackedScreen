@@ -141,6 +141,12 @@ namespace Enemies
             }
         }
 
+        public override bool AnimationPlaying()
+        {
+            return animator.GetCurrentAnimatorStateInfo(0).IsName("MinionAttack");
+            
+        }
+
         public void AnimateEnemy(EnemyState enemyState)
         {
             switch (enemyState)

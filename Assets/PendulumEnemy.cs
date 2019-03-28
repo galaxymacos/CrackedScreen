@@ -39,6 +39,11 @@ public class PendulumEnemy : Enemy
         return;
     }
 
+    public override bool AnimationPlaying()
+    {
+        return false;
+    }
+
     public override void InteractWithPlayer()
     {
         

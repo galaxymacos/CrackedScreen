@@ -50,7 +50,7 @@ public class ArcherEnemy : Enemy {
             return;
         }
         if (isProbabilityEventHappens(dodgingProbability) && _enemyCurrentState == EnemyState.Standing) {
-            FlipAccordingToPosition();
+            FaceBasedOnPlayerPosition();
             animator.SetTrigger("RollAttack");
             dodging = true;
             print("Dodging");
@@ -207,6 +207,12 @@ public class ArcherEnemy : Enemy {
             currentDistanceFromCenter -= patrolSpeed * Time.deltaTime;
             if (currentDistanceFromCenter <= leftLimit) patrolRight = true;
         }
+    }
+
+    public override bool AnimationPlaying()
+    {
+        return animator.GetCurrentAnimatorStateInfo(0).IsName("Attack") ||
+               animator.GetCurrentAnimatorStateInfo(0).IsName("Dodge");
     }
 
     public void AnimateEnemy(EnemyState enemyState) {
