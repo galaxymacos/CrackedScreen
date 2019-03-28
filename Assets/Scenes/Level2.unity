@@ -10271,7 +10271,7 @@ MonoBehaviour:
   moveTowardsPlayer: 0
   moveTimeInARow: 3
   BossAbilities:
-  - {fileID: 1463755414}
+  - {fileID: 1463755412}
   specialAttackAnimationNames: []
   ignoreKnockUpTime: 3
   MaxknockUpTimes: 3
@@ -16306,6 +16306,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Enabled
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5222131670480362690, guid: a02d529cfc22d5e44a66cfdca82056a6,
+        type: 3}
+      propertyPath: defendRecoilForce
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 2130372258, guid: a02d529cfc22d5e44a66cfdca82056a6, type: 3}
       propertyPath: m_Enabled
