@@ -7,18 +7,11 @@ using Random = UnityEngine.Random;
 
 public class SecondStageBoss : Enemy
 {
-    public float movingTowardsPlayerPercentage = 0.7f;
-
     public bool moveTowardsPlayer;
-
     private float moveTimeRemainsThisRound;
-
-    public float moveTimeInARow = 3f;
-
     private Animator animator;
 
     public BossAbility[] BossAbilities;
-    public string[] specialAttackAnimationNames;
 
     [SerializeField] private float ignoreKnockUpTime = 3f;    // Enemy can't be knocked up for seconds after boss just stand up from lying 
     private float ignoreKnockUpTimeLeft;
@@ -131,21 +124,11 @@ public class SecondStageBoss : Enemy
             if (!AnimationPlaying())
             {
                 specialAttackTimeRemains = specialAttackInterval;
-//                int randomAbilityIndex = Random.Range(0, specialAttackAnimationNames.Length);
-//                animator.SetTrigger(specialAttackAnimationNames[randomAbilityIndex]);
                 int randomAbilityIndex = Random.Range(0, BossAbilities.Length);
                     BossAbilities[randomAbilityIndex].Play();
             }
         }
     }
-
-    private void ChangeFacingDirectionAccordingToMovement()
-    {
-        Flip(rb.velocity.x > 0);
-    }
-
-    
-    
 
     private bool attackCooldownUp()
     {
@@ -179,24 +162,8 @@ public class SecondStageBoss : Enemy
             
             if (!playerInAttackRange)
             {
-//                rb.MovePosition(transform.position + PlayerDirectionInPlane()*moveSpeed*Time.fixedDeltaTime);
                 rb.velocity = new Vector3(PlayerDirectionInPlane().x * moveSpeed,rb.velocity.y,PlayerDirectionInPlane().z*moveSpeed);
-//                transform.Translate(PlayerDirectionInPlane()*moveSpeed*Time.deltaTime);
             }
-//            else
-//            {
-////                rb.MovePosition(transform.position-PlayerDirectionInPlane()*moveSpeed*Time.fixedDeltaTime);
-//                rb.velocity = new Vector3(-PlayerDirectionInPlane().x * moveSpeed,rb.velocity.y,PlayerDirectionInPlane().z*moveSpeed);
-//
-//
-//                moveTimeRemainsThisRound -= Time.fixedDeltaTime;
-//            }
-//                
-//        }
-//        else
-//        {
-//            ChangeMoveDir();
-//        }
     }
 
     /// <summary>
@@ -207,21 +174,6 @@ public class SecondStageBoss : Enemy
     {
         Vector3 playerDirection = (GameManager.Instance.player.transform.position - transform.position).normalized;
        return new Vector3(playerDirection.x,0,playerDirection.z);
-    }
-
-    private void ChangeMoveDir()
-    {
-        int randomNumber = Random.Range(0, 100);
-        if (randomNumber <= movingTowardsPlayerPercentage*100)
-        {
-            moveTowardsPlayer = true;
-        }
-        else
-        {
-            moveTowardsPlayer = false;
-        }
-
-        moveTimeRemainsThisRound = moveTimeInARow;
     }
 
     public override void OnCollisionEnter(Collision other)

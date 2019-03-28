@@ -30,7 +30,6 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float gravity = 1000f;
 
     private bool hasKnockUp;
-    private bool is3D;
     private bool isFallingDown;
 
     public bool isGliding;
@@ -228,6 +227,7 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
+
         if (movement.x > 0 && PlayerHasWallAtRight())
         {
             movement = new Vector3(0,movement.y,movement.z);
@@ -301,7 +301,7 @@ public class PlayerMovement : MonoBehaviour
         return isGrounded;
     }
 
-    public bool PlayerHasWallAtRight()
+    private bool PlayerHasWallAtRight()
     {
         LayerMask wallLayer = 1 << 14;
         var position = transform.position;
@@ -309,8 +309,8 @@ public class PlayerMovement : MonoBehaviour
             wallLayer);
         return hasHitRightWall;
     }
-    
-    public bool PlayerHasWallAtLeft()
+
+    private bool PlayerHasWallAtLeft()
     {
         LayerMask wallLayer = 1 << 14;
         var position = transform.position;
@@ -341,7 +341,8 @@ public class PlayerMovement : MonoBehaviour
     public void MovePlayerOnGround()
     {
         if (GameManager.Instance.player.GetComponent<PlayerController>().horizontalMovement > 0 ||
-            GameManager.Instance.player.GetComponent<PlayerController>().horizontalMovement < 0)
+            GameManager.Instance.player.GetComponent<PlayerController>().horizontalMovement < 0||
+            ( GameManager.Instance.player.GetComponent<PlayerController>().verticalMovement < 0|| GameManager.Instance.player.GetComponent<PlayerController>().verticalMovement > 0) && GameManager.Instance.is3D)
         {
             if (Input.GetKey(KeyCode.LeftShift))
             {
@@ -359,6 +360,7 @@ public class PlayerMovement : MonoBehaviour
             if (playerCurrentState != PlayerState.Block && playerCurrentState != PlayerState.Jump)
                 ChangePlayerState(PlayerState.Stand);
         }
+
     }
 
     public void ChangeAnimationAccordingToAction()
