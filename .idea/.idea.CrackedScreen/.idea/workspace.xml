@@ -1,15 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="6ab51ebf-8ec7-4014-b056-1781fdf0842d" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/Assets/Animations/Enemy/Bosses/Second Level/HomeRun.anim" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Animations/Enemy/Bosses/Second Level/HomeRun.anim" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/DragonFist.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/DragonFist.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/HomeRun.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/HomeRun.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Level2.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Level2.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CameraFollow.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CameraFollow.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PlayerMovement.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/PlayerMovement.cs" afterDir="false" />
-    </list>
+    <list default="true" id="6ab51ebf-8ec7-4014-b056-1781fdf0842d" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -21,8 +13,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Assets/SecondStageBoss.cs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-252">
-              <caret line="198" column="43" lean-forward="true" selection-start-line="198" selection-start-column="43" selection-end-line="198" selection-end-column="43" />
+            <state relative-caret-position="105">
+              <caret line="221" column="53" selection-start-line="221" selection-start-column="53" selection-end-line="221" selection-end-column="53" />
               <folding>
                 <marker date="1553664731055" expanded="false" signature="6:155" ph="..." />
                 <marker date="1553664731055" expanded="true" signature="193:7593" ph="{...}" />
@@ -523,12 +515,12 @@
       <updated>1553664699258</updated>
       <workItem from="1553664700494" duration="315000" />
       <workItem from="1553694641183" duration="5940000" />
-      <workItem from="1553724081774" duration="17712000" />
+      <workItem from="1553724081774" duration="18177000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="23967000" />
+    <option name="totallyTimeSpent" value="24432000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -964,8 +956,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Assets/SecondStageBoss.cs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-252">
-          <caret line="198" column="43" lean-forward="true" selection-start-line="198" selection-start-column="43" selection-end-line="198" selection-end-column="43" />
+        <state relative-caret-position="105">
+          <caret line="221" column="53" selection-start-line="221" selection-start-column="53" selection-end-line="221" selection-end-column="53" />
           <folding>
             <marker date="1553664731055" expanded="false" signature="6:155" ph="..." />
             <marker date="1553664731055" expanded="true" signature="193:7593" ph="{...}" />
