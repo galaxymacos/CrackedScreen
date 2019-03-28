@@ -244,7 +244,6 @@ public class PlayerMovement : MonoBehaviour
     {
         if (isGrounded)
         {
-            print("Jump from ground");
             ResetVerticalVelocity();
             rb.AddForce(new Vector3(0, jumpForce, 0));
             ChangePlayerState(PlayerState.Jump);
@@ -254,7 +253,6 @@ public class PlayerMovement : MonoBehaviour
                  playerCurrentState == PlayerState.FallDown &&
                  (playerPreviousState == PlayerState.Walk || playerPreviousState == PlayerState.Run))
         {
-            print("Double jump or jump from falling from cliff");
             ResetVerticalVelocity();
             rb.AddForce(new Vector3(0, doubleJumpForce));
             ChangePlayerState(PlayerState.DoubleJump);
@@ -284,18 +282,19 @@ public class PlayerMovement : MonoBehaviour
         LayerMask groundLayer = 1 << 11;
         LayerMask slopeLayer = 1 << 15;
         var position = transform.position;
-        var hasHitGround = Physics.Raycast(position, Vector3.down,
+        var hasHitRightGround = Physics.Raycast(position+new Vector3(GetComponent<BoxCollider>().size.x/2,0), Vector3.down,
+            GetComponent<BoxCollider>().size.y / 2 + 0.01f, groundLayer);
+        var hasHitLeftGround = Physics.Raycast(position-new Vector3(GetComponent<BoxCollider>().size.x/2,0), Vector3.down,
             GetComponent<BoxCollider>().size.y / 2 + 0.01f, groundLayer);
         var hasHitSlope = Physics.Raycast(position, Vector3.down,
             GetComponent<BoxCollider>().size.y / 2 + 0.4f, slopeLayer);
 
-        isGrounded = hasHitGround && rb.velocity.y <= 0 || hasHitSlope;
+        isGrounded = (hasHitRightGround || hasHitLeftGround) && rb.velocity.y <= 0 || hasHitSlope;
         if (isGrounded)
             if (hasKnockUp && rb.velocity.y <= 0) // hasKnockUp TODO is this variable really necessery?
             {
                 hasKnockUp = false;
                 MovePlayerOnGround();
-                print("Recover player control");
                 PlayerProperty.controller.canControl = true;
             }
 

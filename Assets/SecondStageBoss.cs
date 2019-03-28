@@ -169,17 +169,7 @@ public class SecondStageBoss : Enemy
  
     }
 
-    private void FaceBasedOnMoveDirection()
-    {
-        if (rb.velocity.x > 0)
-        {
-            Flip(true);
-        }
-        else
-        {
-            Flip(false);
-        }
-    }
+    
 
     /// <summary>
     /// Was called in FixedUpdate()
@@ -189,7 +179,6 @@ public class SecondStageBoss : Enemy
             
             if (!playerInAttackRange)
             {
-                print("Move");
 //                rb.MovePosition(transform.position + PlayerDirectionInPlane()*moveSpeed*Time.fixedDeltaTime);
                 rb.velocity = new Vector3(PlayerDirectionInPlane().x * moveSpeed,rb.velocity.y,PlayerDirectionInPlane().z*moveSpeed);
 //                transform.Translate(PlayerDirectionInPlane()*moveSpeed*Time.deltaTime);
