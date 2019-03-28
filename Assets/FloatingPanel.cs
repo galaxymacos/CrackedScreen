@@ -31,11 +31,9 @@ public class FloatingPanel : MonoBehaviour
         {
             if (movingInPositiveDir)
             {
-                transform.Translate(new Vector3(speed * Time.deltaTime, 0, 0));
-                if (playerInRange)
-                {
-                    GameManager.Instance.player.transform.Translate(new Vector3(speed * Time.deltaTime, 0, 0));
-                }
+                Vector3 horizontalMovement = new Vector3(speed * Time.deltaTime, 0, 0);
+                transform.Translate(horizontalMovement);
+
                 if (transform.position.x >= originalPos.x + distance / 2)
                 {
                     movingInPositiveDir = false;
@@ -43,11 +41,9 @@ public class FloatingPanel : MonoBehaviour
             }
             else
             {
-                transform.Translate(new Vector3(-speed * Time.deltaTime, 0, 0));
-                if (playerInRange)
-                {
-                    GameManager.Instance.player.transform.Translate(new Vector3(-speed * Time.deltaTime, 0, 0));
-                }
+                Vector3 horizontalMovement = new Vector3(-speed * Time.deltaTime, 0, 0);
+                transform.Translate(horizontalMovement);
+                
                 if (transform.position.x <= originalPos.x - distance / 2)
                 {
                     movingInPositiveDir = true;
@@ -62,7 +58,7 @@ public class FloatingPanel : MonoBehaviour
                 transform.Translate(new Vector3(0, speed * Time.deltaTime, 0));
                 if (playerInRange)
                 {
-                    GameManager.Instance.player.transform.Translate(new Vector3(0, speed * Time.deltaTime, 0));
+//                    PlayerProperty.player.transform.Translate(new Vector3(0, speed * Time.deltaTime, 0));
                 }
                 if (transform.position.y >= originalPos.y + distance / 2)
                 {
@@ -74,7 +70,7 @@ public class FloatingPanel : MonoBehaviour
                 transform.Translate(new Vector3(0, -speed * Time.deltaTime, 0));
                 if (playerInRange)
                 {
-                    GameManager.Instance.player.transform.Translate(new Vector3(0, -speed * Time.deltaTime, 0));
+//                    PlayerProperty.player.transform.Translate(new Vector3(0, -speed * Time.deltaTime, 0));
                 }
                 if (transform.position.y <= originalPos.y - distance / 2)
                 {

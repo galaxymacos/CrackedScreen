@@ -78,10 +78,10 @@ public class PlayerController : MonoBehaviour
         }
 
 
-        if (!Input.GetKey(KeyCode.Space))
-        {
-            playerMovement.FallDown();
-        }
+//        if (!Input.GetKey(KeyCode.Space))    // TODO to delete this to make the game easier by letting player to jump to the highest point once he/she presses the spacebar
+//        {
+//            playerMovement.FallDown();
+//        }
 
 
 //        // can't running while on the air

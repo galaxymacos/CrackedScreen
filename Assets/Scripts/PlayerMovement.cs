@@ -151,23 +151,18 @@ public class PlayerMovement : MonoBehaviour
         if (GameManager.Instance.PlayerDying) return;
         if (CheckIfPlayerOnGround()) MovePlayerOnGround();
 
-        animator.SetBool("Fall Down", isFallDown());
-        if (isFallDown() && playerCurrentState != PlayerState.KnockUp) ChangePlayerState(PlayerState.FallDown);
-        if (isGliding)
+        animator.SetBool("Fall Down", VerticalVelocityIsNegative());
+        if (VerticalVelocityIsNegative() && playerCurrentState != PlayerState.KnockUp)
         {
-            FallDown();
-            isGliding = false;
+            ChangePlayerState(PlayerState.FallDown);
         }
-        else
-        {
-            ApplyGravity();
-        }
+        ApplyGravity();
     }
 
-    public bool isFallDown()
+    public bool VerticalVelocityIsNegative()
     {
         if (CheckIfPlayerOnGround()) return false;
-        return rb.velocity.y < -0.1f;
+        return rb.velocity.y < -0.01f;
     }
 
     private void ApplyGravity()
@@ -189,57 +184,66 @@ public class PlayerMovement : MonoBehaviour
 
             return;
         }
-
+        Vector3 movement;
         if (GameManager.Instance.is3D)
         {
+            
             if (playerCurrentState == PlayerState.Run)
             {
-                var movement = new Vector3(
+                movement = new Vector3(
                     horizontalMovement * runSpeed * Time.fixedDeltaTime,
                     0,
                     verticalMovement * verticalMoveSpeed * Time.fixedDeltaTime
                 );
-                transform.Translate(movement);
             }
             else
             {
-                var movement = new Vector3(
+                movement = new Vector3(
                     horizontalMovement * moveSpeed * Time.fixedDeltaTime,
                     0,
                     verticalMovement * verticalMoveSpeed * Time.fixedDeltaTime
                 );
-                transform.Translate(movement);
             }
         }
 
-        if (!GameManager.Instance.is3D)
+        else
         {
             if (playerCurrentState == PlayerState.Run)
             {
-                var movement = new Vector3(
+                movement = new Vector3(
                     horizontalMovement * runSpeed * Time.fixedDeltaTime,
                     0,
                     0
                 );
 
-                transform.Translate(movement);
             }
             else
             {
-                var movement = new Vector3(
+                movement = new Vector3(
                     horizontalMovement * moveSpeed * Time.fixedDeltaTime,
                     0,
                     0
                 );
-                transform.Translate(movement);
             }
         }
+
+        if (movement.x > 0 && PlayerHasWallAtRight())
+        {
+            movement = new Vector3(0,movement.y,movement.z);
+        }
+        else if (movement.x < 0 && PlayerHasWallAtLeft())
+        {
+            movement = new Vector3(0,movement.y,movement.z);
+        }
+        transform.Translate(movement);
+
     }
 
     public void Jump()
     {
         if (isGrounded)
         {
+            print("Jump from ground");
             ResetVerticalVelocity();
             rb.AddForce(new Vector3(0, jumpForce, 0));
             ChangePlayerState(PlayerState.Jump);
@@ -249,6 +253,7 @@ public class PlayerMovement : MonoBehaviour
                  playerCurrentState == PlayerState.FallDown &&
                  (playerPreviousState == PlayerState.Walk || playerPreviousState == PlayerState.Run))
         {
+            print("Double jump or jump from falling from cliff");
             ResetVerticalVelocity();
             rb.AddForce(new Vector3(0, doubleJumpForce));
             ChangePlayerState(PlayerState.DoubleJump);
@@ -258,12 +263,12 @@ public class PlayerMovement : MonoBehaviour
     public void FallDown()
     {
         var playerVelocity = rb.velocity;
-        if (rb.velocity.y > Mathf.Epsilon)
-        {
+//        if (rb.velocity.y > Mathf.Epsilon)
+//        {
             playerVelocity = new Vector3(playerVelocity.x, playerVelocity.y - dropdownSpeed * Time.fixedDeltaTime,
                 playerVelocity.z);
             rb.velocity = playerVelocity;
-        }
+//        }
     }
 
     private void ResetVerticalVelocity()
@@ -296,13 +301,42 @@ public class PlayerMovement : MonoBehaviour
         return isGrounded;
     }
 
+    public bool PlayerHasWallAtRight()
+    {
+        LayerMask wallLayer = 1 << 14;
+        var position = transform.position;
+        var hasHitRightWall = Physics.Raycast(position, Vector3.right, GetComponent<BoxCollider>().size.x / 2 + 0.01f,
+            wallLayer);
+        return hasHitRightWall;
+    }
+    
+    public bool PlayerHasWallAtLeft()
+    {
+        LayerMask wallLayer = 1 << 14;
+        var position = transform.position;
+        var hasHitRightWall = Physics.Raycast(position, Vector3.left, GetComponent<BoxCollider>().size.x / 2 + 0.01f,
+            wallLayer);
+        return hasHitRightWall;
+    }
+
     private void OnCollisionExit(Collision other)
     {
+        if (other.gameObject.CompareTag("MovingPlatform"))
+        {
+            transform.parent = null;
+        }
         if (other.gameObject.layer == LayerMask.NameToLayer("Slope"))
             if (rb.velocity.y > 0)
                 isGrounded = false;
     }
 
+    private void OnCollisionStay(Collision other)
+    {
+        if (other.gameObject.CompareTag("MovingPlatform"))
+        {
+            transform.parent = other.transform;
+        }
+    }
 
     public void MovePlayerOnGround()
     {

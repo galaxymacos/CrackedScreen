@@ -184,7 +184,6 @@ public class ArcherEnemy : Enemy {
             animator.GetCurrentAnimatorStateInfo(0).IsName("Dodge")) {
             return;
         }
-        print("Enemy Moving");
         if (patrolRight) {
                 Flip(true);
 
