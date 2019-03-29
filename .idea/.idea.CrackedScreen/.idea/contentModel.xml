@@ -16,6 +16,7 @@
           </e>
         </e>
         <e p="AirCushion.cs" t="Include" />
+        <e p="AllarmTriggerScript.cs" t="Include" />
         <e p="ArcherEnemy.cs" t="Include" />
         <e p="Arrow.cs" t="Include" />
         <e p="Assets" t="Include">
@@ -465,7 +466,6 @@
           <e p="UnLockFirstBlock.cs" t="Include" />
         </e>
         <e p="SecondBossAnimator.cs" t="Include" />
-        <e p="SecondBossAttack.cs" t="Include" />
         <e p="SecondStageBoss.cs" t="Include" />
         <e p="SelfDropPanel.cs" t="Include" />
         <e p="SnowLotus.cs" t="Include" />
@@ -473,7 +473,6 @@
         <e p="SpawnVolcanoAttack.cs" t="Include" />
         <e p="Spike.cs" t="Include" />
         <e p="SpikeBush.cs" t="Include" />
-        <e p="SpikeTrigger.cs" t="Include" />
         <e p="Standard Assets" t="Include">
           <e p="Characters" t="Include">
             <e p="FirstPersonCharacter" t="Include">
@@ -717,6 +716,39 @@
           <e p="Sprites" t="Include">
             <e p="EmojiOne Attribution.txt" t="Include" />
           </e>
+        </e>
+        <e p="Toon particle pack SKJ Ver.2(Slashing)" t="Include">
+          <e p="Plugins" t="Include">
+            <e p="Effect" t="Include">
+              <e p="Editor" t="Include">
+                <e p="EffectControllerInspector.cs" t="Include" />
+                <e p="EffectToolBar.cs" t="Include" />
+                <e p="RenderEffectInspector.cs" t="Include" />
+                <e p="ShaderCustomEditor" t="Include">
+                  <e p="ShaderMaterialsEditor.cs" t="Include" />
+                </e>
+                <e p="XUIUtils.cs" t="Include" />
+              </e>
+              <e p="Script" t="Include">
+                <e p="CameraTarget.cs" t="Include" />
+                <e p="EffectController.cs" t="Include" />
+                <e p="EffectDemo.cs" t="Include" />
+                <e p="EffectShaderPropertyStr.cs" t="Include" />
+                <e p="RenderEffect.cs" t="Include" />
+                <e p="TransformExtension.cs" t="Include" />
+              </e>
+              <e p="Shader" t="Include">
+                <e p="effect_distortion_mask.shader" t="Include" />
+                <e p="ParticleAddEffect.shader" t="Include" />
+                <e p="ParticleAddSoftEffect.shader" t="Include" />
+                <e p="ParticleBlendEffect.shader" t="Include" />
+                <e p="ParticlePremultiplyBlend.shader" t="Include" />
+                <e p="Toon Additive.shader" t="Include" />
+                <e p="Toon Blended Premmultiply.shader" t="Include" />
+              </e>
+            </e>
+          </e>
+          <e p="READ ME.txt" t="Include" />
         </e>
         <e p="VolcanoFlameHitPlayer.cs" t="Include" />
         <e p="VolumetricLines" t="Include">

@@ -130,10 +130,38 @@ public abstract class Enemy : MonoBehaviour
         {
             return;
         }
+<<<<<<< HEAD
         print($"Add force V:({force.x},{force.y},{force.z})");
         rb.AddForce(force);
         ChangeEnemyState(EnemyState.GotHitToAir);
     }
+=======
+//        print("Try to knock up the enemy");
+        if (_enemyCurrentState == EnemyState.GotHitToAir)
+        {
+            GetComponent<Animator>().SetTrigger("HitToAir");
+        }
+        FlipAccordingToPosition();
+        rb.AddForce(force);
+        ChangeEnemyState(EnemyState.GotHitToAir);
+    }
+    
+    public void FlipAccordingToPosition() {
+        if (PlayerIsAtRight()) {
+            Flip(true);
+            print("Enemy is facing right now");
+        }
+        else
+        {
+            Flip(false);
+            print("Enemy is facing left now");
+        }
+    }
+    
+    public bool PlayerIsAtRight() {
+        return PlayerProperty.playerPosition.x - transform.position.x > 0;
+    }
+>>>>>>> parent of 679ed4cd... Merge branch 'master' of https://github.com/galaxymacos/CrackedScreen
 
     /// <summary>
     /// This method will be called when enemy takes damage

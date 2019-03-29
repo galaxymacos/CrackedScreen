@@ -39,13 +39,13 @@ public class GameManager : MonoBehaviour
 
     public static GameManager Instance { get; private set; }
 
-    internal readonly List<LiveObject> liveObjects = new List<LiveObject>();    // use to change the collider of all the gameobjects in run time when switch between 2D and 3D
+    internal List<LiveObject> liveObjects;    // use to change the collider of all the gameobjects in run time when switch between 2D and 3D
 
     private void Awake()
     {
         if (Instance == null) Instance = this;
         originalZ = player.transform.position.z;
-        
+        liveObjects = new List<LiveObject>();
     }
 
     public bool PlayerDying;

@@ -226,7 +226,11 @@ public class PlayerMovement : MonoBehaviour
             }
             else
             {
+<<<<<<< HEAD
                 var movement = new Vector3(
+=======
+                movement = new Vector3(
+>>>>>>> parent of 679ed4cd... Merge branch 'master' of https://github.com/galaxymacos/CrackedScreen
                     horizontalMovement * moveSpeed * Time.fixedDeltaTime,
                     0,
                     0
@@ -234,12 +238,27 @@ public class PlayerMovement : MonoBehaviour
                 transform.Translate(movement);
             }
         }
+<<<<<<< HEAD
+=======
+
+        if (movement.x > 0 && PlayerHasWallAtRight())
+        {
+            movement = new Vector3(0,movement.y,movement.z);
+        }
+        else if (movement.x < 0 && PlayerHasWallAtLeft())
+        {
+            movement = new Vector3(0,movement.y,movement.z);
+        }
+        transform.Translate(movement);
+
+>>>>>>> parent of 679ed4cd... Merge branch 'master' of https://github.com/galaxymacos/CrackedScreen
     }
 
     public void Jump()
     {
         if (isGrounded)
         {
+            print("Jump from ground");
             ResetVerticalVelocity();
             rb.AddForce(new Vector3(0, jumpForce, 0));
             ChangePlayerState(PlayerState.Jump);
@@ -249,6 +268,7 @@ public class PlayerMovement : MonoBehaviour
                  playerCurrentState == PlayerState.FallDown &&
                  (playerPreviousState == PlayerState.Walk || playerPreviousState == PlayerState.Run))
         {
+            print("Double jump or jump from falling from cliff");
             ResetVerticalVelocity();
             rb.AddForce(new Vector3(0, doubleJumpForce));
             ChangePlayerState(PlayerState.DoubleJump);
@@ -296,6 +316,27 @@ public class PlayerMovement : MonoBehaviour
         return isGrounded;
     }
 
+<<<<<<< HEAD
+=======
+    public bool PlayerHasWallAtRight()
+    {
+        LayerMask wallLayer = 1 << 14;
+        var position = transform.position;
+        var hasHitRightWall = Physics.Raycast(position, Vector3.right, GetComponent<BoxCollider>().size.x / 2 + 0.01f,
+            wallLayer);
+        return hasHitRightWall;
+    }
+    
+    public bool PlayerHasWallAtLeft()
+    {
+        LayerMask wallLayer = 1 << 14;
+        var position = transform.position;
+        var hasHitRightWall = Physics.Raycast(position, Vector3.left, GetComponent<BoxCollider>().size.x / 2 + 0.01f,
+            wallLayer);
+        return hasHitRightWall;
+    }
+
+>>>>>>> parent of 679ed4cd... Merge branch 'master' of https://github.com/galaxymacos/CrackedScreen
     private void OnCollisionExit(Collision other)
     {
         if (other.gameObject.layer == LayerMask.NameToLayer("Slope"))
@@ -303,6 +344,16 @@ public class PlayerMovement : MonoBehaviour
                 isGrounded = false;
     }
 
+<<<<<<< HEAD
+=======
+    private void OnCollisionStay(Collision other)
+    {
+        if (other.gameObject.CompareTag("MovingPlatform"))
+        {
+            transform.parent = other.transform;
+        }
+    }
+>>>>>>> parent of 679ed4cd... Merge branch 'master' of https://github.com/galaxymacos/CrackedScreen
 
     public void MovePlayerOnGround()
     {

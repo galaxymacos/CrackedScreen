@@ -27,4 +27,10 @@ public class PlayerProperty : MonoBehaviour
         controller = player.GetComponent<PlayerController>();
         animator = GameManager.Instance.animator;
     }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
 }

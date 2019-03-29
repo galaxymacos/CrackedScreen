@@ -69,7 +69,10 @@ public class Player : MonoBehaviour
             GameUi.Instance.hpBar.fillAmount = hp / maxHp;
             if (hp <= 0)
             {
+<<<<<<< HEAD
                 print("playing death animation");
+=======
+>>>>>>> parent of 679ed4cd... Merge branch 'master' of https://github.com/galaxymacos/CrackedScreen
                 GameManager.Instance.PlayerAnimator.PlayerStartDying();
             }    
         }
