@@ -39,13 +39,13 @@ public class GameManager : MonoBehaviour
 
     public static GameManager Instance { get; private set; }
 
-    internal List<LiveObject> liveObjects;    // use to change the collider of all the gameobjects in run time when switch between 2D and 3D
+    internal readonly List<LiveObject> liveObjects = new List<LiveObject>();    // use to change the collider of all the gameobjects in run time when switch between 2D and 3D
 
     private void Awake()
     {
         if (Instance == null) Instance = this;
         originalZ = player.transform.position.z;
-        liveObjects = new List<LiveObject>();
+        
     }
 
     public bool PlayerDying;
@@ -81,39 +81,24 @@ public class GameManager : MonoBehaviour
             {
                 if (liveObject != null)
                 {
-                    if (liveObject.boxTriggerCollider != null)
+                    if (liveObject.boxTriggerColliderSizeDictionary.Count > 0)
                     {
-                        liveObject.boxTriggerCollider.size = new Vector3(liveObject.boxTriggerCollider.size.x,liveObject.boxTriggerCollider.size.y,liveObject.originalBoxTriggerColliderSizeZ);
+                        foreach (KeyValuePair<BoxCollider, float> pair in liveObject.boxTriggerColliderSizeDictionary)
+                        {
+                            pair.Key.size = new Vector3(pair.Key.size.x, pair.Key.size.y,pair.Value);
+                        }
                     }
 
-                    if (liveObject.boxCollider != null)
+                    if (liveObject.boxColliderSizeDictionary.Count > 0)
                     {
-                        liveObject.boxCollider.size = new Vector3(liveObject.boxCollider.size.x,liveObject.boxCollider.size.y,liveObject.originalBoxColliderSizeZ);
+                        foreach (KeyValuePair<BoxCollider, float> pair in liveObject.boxColliderSizeDictionary)
+                        {
+                            pair.Key.size = new Vector3(pair.Key.size.x, pair.Key.size.y,pair.Value);
+                        }
                     }
                 }
             }
-//            foreach (var objectInGame in gameObjects)
-//                if (objectInGame != null)
-//                {
-//                    var objPos = objectInGame.transform.position;
-//                    objPos = new Vector3(objPos.x, objPos.y,
-//                        originalZ);
-//                    objectInGame.transform.position = objPos;
-//                    if (objectInGame.layer == LayerMask.NameToLayer("Enemy"))
-//                    {
-//                        objectInGame.GetComponent<Rigidbody>().constraints =
-//                            RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionZ;
-//                    }
-//                    else if (objectInGame.layer == LayerMask.NameToLayer("Player"))
-//                    {
-//                        objectInGame.GetComponent<Rigidbody>().constraints =
-//                            RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionZ;
-//                    }
-//                    else if (objectInGame.layer == LayerMask.NameToLayer("Environment"))
-//                    {
-//                    }
-//    
-//                }
+
         }
         else
         {
@@ -123,32 +108,23 @@ public class GameManager : MonoBehaviour
             {
                 if (liveObject != null)
                 {
-                    if (liveObject.boxTriggerCollider != null)
+                    if (liveObject.boxTriggerColliderSizeDictionary.Count > 0)
                     {
-                        liveObject.originalBoxTriggerColliderSizeZ = liveObject.boxTriggerCollider.size.z;
-                        liveObject.boxTriggerCollider.size = new Vector3(liveObject.boxTriggerCollider.size.x,liveObject.boxTriggerCollider.size.y,1000);
+                        foreach (KeyValuePair<BoxCollider, float> pair in liveObject.boxTriggerColliderSizeDictionary)
+                        {
+                            pair.Key.size = new Vector3(pair.Key.size.x, pair.Key.size.y,1000);
+                        }
                     }
-
-                    if (liveObject.boxCollider != null)
+                    
+                    if (liveObject.boxColliderSizeDictionary.Count > 0)
                     {
-                        liveObject.originalBoxColliderSizeZ = liveObject.boxCollider.size.z;
-                        liveObject.boxCollider.size = new Vector3(liveObject.boxCollider.size.x,liveObject.boxCollider.size.y,1000);
+                        foreach (KeyValuePair<BoxCollider, float> pair in liveObject.boxColliderSizeDictionary)
+                        {
+                            pair.Key.size = new Vector3(pair.Key.size.x, pair.Key.size.y,1000);
+                        }
                     }
                 }
             }
-//            originalZ = player.transform.position.z;
-//            foreach (var objectInGame in gameObjects)
-//            {
-//                if (objectInGame != null)
-//                {
-//                    var objPos = objectInGame.transform.position;
-//                    objPos = new Vector3(objPos.x, objPos.y,
-//                        Random.Range(widthHigherPoint, widthLowerPoint));
-//                    objectInGame.transform.position = objPos;
-//                    objectInGame.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
-//    
-//                }
-//            }
         }
     }
 

@@ -465,6 +465,7 @@
           <e p="UnLockFirstBlock.cs" t="Include" />
         </e>
         <e p="SecondBossAnimator.cs" t="Include" />
+        <e p="SecondBossAttack.cs" t="Include" />
         <e p="SecondStageBoss.cs" t="Include" />
         <e p="SelfDropPanel.cs" t="Include" />
         <e p="SnowLotus.cs" t="Include" />
@@ -472,6 +473,7 @@
         <e p="SpawnVolcanoAttack.cs" t="Include" />
         <e p="Spike.cs" t="Include" />
         <e p="SpikeBush.cs" t="Include" />
+        <e p="SpikeTrigger.cs" t="Include" />
         <e p="Standard Assets" t="Include">
           <e p="Characters" t="Include">
             <e p="FirstPersonCharacter" t="Include">

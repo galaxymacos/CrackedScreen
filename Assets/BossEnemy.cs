@@ -250,6 +250,13 @@ public class BossEnemy : Enemy
         }
     }
 
+    public override bool AnimationPlaying()
+    {
+        return animator.GetCurrentAnimatorStateInfo(0).IsName("RollingAttack") ||
+               animator.GetCurrentAnimatorStateInfo(0).IsName("ContinuousStrike") ||
+               animator.GetCurrentAnimatorStateInfo(0).IsName("Attack");
+    }
+
     private Vector3 PlayerDirectionInPlane()
     {
         Vector3 playerDirection = (GameManager.Instance.player.transform.position - transform.position).normalized;

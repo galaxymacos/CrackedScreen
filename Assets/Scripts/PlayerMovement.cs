@@ -30,7 +30,6 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float gravity = 1000f;
 
     private bool hasKnockUp;
-    private bool is3D;
     private bool isFallingDown;
 
     public bool isGliding;
@@ -219,6 +218,7 @@ public class PlayerMovement : MonoBehaviour
             }
             else
             {
+                
                 movement = new Vector3(
                     horizontalMovement * moveSpeed * Time.fixedDeltaTime,
                     0,
@@ -226,6 +226,7 @@ public class PlayerMovement : MonoBehaviour
                 );
             }
         }
+
 
         if (movement.x > 0 && PlayerHasWallAtRight())
         {
@@ -243,7 +244,6 @@ public class PlayerMovement : MonoBehaviour
     {
         if (isGrounded)
         {
-            print("Jump from ground");
             ResetVerticalVelocity();
             rb.AddForce(new Vector3(0, jumpForce, 0));
             ChangePlayerState(PlayerState.Jump);
@@ -253,7 +253,6 @@ public class PlayerMovement : MonoBehaviour
                  playerCurrentState == PlayerState.FallDown &&
                  (playerPreviousState == PlayerState.Walk || playerPreviousState == PlayerState.Run))
         {
-            print("Double jump or jump from falling from cliff");
             ResetVerticalVelocity();
             rb.AddForce(new Vector3(0, doubleJumpForce));
             ChangePlayerState(PlayerState.DoubleJump);
@@ -283,25 +282,26 @@ public class PlayerMovement : MonoBehaviour
         LayerMask groundLayer = 1 << 11;
         LayerMask slopeLayer = 1 << 15;
         var position = transform.position;
-        var hasHitGround = Physics.Raycast(position, Vector3.down,
+        var hasHitRightGround = Physics.Raycast(position+new Vector3(GetComponent<BoxCollider>().size.x/2,0), Vector3.down,
+            GetComponent<BoxCollider>().size.y / 2 + 0.01f, groundLayer);
+        var hasHitLeftGround = Physics.Raycast(position-new Vector3(GetComponent<BoxCollider>().size.x/2,0), Vector3.down,
             GetComponent<BoxCollider>().size.y / 2 + 0.01f, groundLayer);
         var hasHitSlope = Physics.Raycast(position, Vector3.down,
             GetComponent<BoxCollider>().size.y / 2 + 0.4f, slopeLayer);
 
-        isGrounded = hasHitGround && rb.velocity.y <= 0 || hasHitSlope;
+        isGrounded = (hasHitRightGround || hasHitLeftGround) && rb.velocity.y <= 0 || hasHitSlope;
         if (isGrounded)
             if (hasKnockUp && rb.velocity.y <= 0) // hasKnockUp TODO is this variable really necessery?
             {
                 hasKnockUp = false;
                 MovePlayerOnGround();
-                print("Recover player control");
                 PlayerProperty.controller.canControl = true;
             }
 
         return isGrounded;
     }
 
-    public bool PlayerHasWallAtRight()
+    private bool PlayerHasWallAtRight()
     {
         LayerMask wallLayer = 1 << 14;
         var position = transform.position;
@@ -309,8 +309,8 @@ public class PlayerMovement : MonoBehaviour
             wallLayer);
         return hasHitRightWall;
     }
-    
-    public bool PlayerHasWallAtLeft()
+
+    private bool PlayerHasWallAtLeft()
     {
         LayerMask wallLayer = 1 << 14;
         var position = transform.position;
@@ -334,14 +334,15 @@ public class PlayerMovement : MonoBehaviour
     {
         if (other.gameObject.CompareTag("MovingPlatform"))
         {
-            transform.parent = other.transform;
+            transform.parent = other.transform.Find("PlatformNode").transform;
         }
     }
 
     public void MovePlayerOnGround()
     {
         if (GameManager.Instance.player.GetComponent<PlayerController>().horizontalMovement > 0 ||
-            GameManager.Instance.player.GetComponent<PlayerController>().horizontalMovement < 0)
+            GameManager.Instance.player.GetComponent<PlayerController>().horizontalMovement < 0||
+            ( GameManager.Instance.player.GetComponent<PlayerController>().verticalMovement < 0|| GameManager.Instance.player.GetComponent<PlayerController>().verticalMovement > 0) && GameManager.Instance.is3D)
         {
             if (Input.GetKey(KeyCode.LeftShift))
             {
@@ -359,6 +360,7 @@ public class PlayerMovement : MonoBehaviour
             if (playerCurrentState != PlayerState.Block && playerCurrentState != PlayerState.Jump)
                 ChangePlayerState(PlayerState.Stand);
         }
+
     }
 
     public void ChangeAnimationAccordingToAction()
