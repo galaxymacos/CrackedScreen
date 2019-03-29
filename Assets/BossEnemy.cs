@@ -69,8 +69,7 @@ public class BossEnemy : Enemy
         Destroy(gameObject);
 
     }
-    
-    
+
 // Start is called before the first frame update
     private bool canMove;
     private bool isplayingAnimation;
@@ -248,13 +247,6 @@ public class BossEnemy : Enemy
         {
             ChangeBossMovementDirectionInRandom();
         }
-    }
-
-    public override bool AnimationPlaying()
-    {
-        return animator.GetCurrentAnimatorStateInfo(0).IsName("RollingAttack") ||
-               animator.GetCurrentAnimatorStateInfo(0).IsName("ContinuousStrike") ||
-               animator.GetCurrentAnimatorStateInfo(0).IsName("Attack");
     }
 
     private Vector3 PlayerDirectionInPlane()

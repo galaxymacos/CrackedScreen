@@ -5,26 +5,37 @@ using UnityEngine;
 
 public class LiveObject : MonoBehaviour
 {
-    internal Dictionary<BoxCollider, float> boxTriggerColliderSizeDictionary;
-    internal Dictionary<BoxCollider, float> boxColliderSizeDictionary;
+    internal BoxCollider boxTriggerCollider;
+    internal float originalBoxTriggerColliderSizeZ;
 
+    internal BoxCollider boxCollider;
+    internal float originalBoxColliderSizeZ;
+    
+
+    // Start is called before the first frame update
     void Awake()
     {
-        boxTriggerColliderSizeDictionary = new Dictionary<BoxCollider, float>();
-        boxColliderSizeDictionary = new Dictionary<BoxCollider, float>();
         var boxColliders = GetComponents(typeof(BoxCollider));
+        if (boxColliders.Length > 2 || boxColliders.Length == 0)
+        {
+            throw new InvalidOperationException(gameObject.name+" has more than two colliders");
+        }
         foreach (Component component in boxColliders)
         {
             var bc = component as BoxCollider;
             if (bc != null && bc.isTrigger)
             {
-                boxTriggerColliderSizeDictionary.Add(bc,bc.size.z);
+                boxTriggerCollider = bc;
+                originalBoxTriggerColliderSizeZ = bc.size.z;
             }
             else if (bc != null && !bc.isTrigger)
             {
-                boxColliderSizeDictionary.Add(bc,bc.size.z);
+                boxCollider = bc;
+                originalBoxColliderSizeZ = bc.size.z;
+
             }
         }
+
     }
 
     private void Start()

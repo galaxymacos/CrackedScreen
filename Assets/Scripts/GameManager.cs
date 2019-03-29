@@ -81,24 +81,39 @@ public class GameManager : MonoBehaviour
             {
                 if (liveObject != null)
                 {
-                    if (liveObject.boxTriggerColliderSizeDictionary.Count > 0)
+                    if (liveObject.boxTriggerCollider != null)
                     {
-                        foreach (KeyValuePair<BoxCollider, float> pair in liveObject.boxTriggerColliderSizeDictionary)
-                        {
-                            pair.Key.size = new Vector3(pair.Key.size.x, pair.Key.size.y,pair.Value);
-                        }
+                        liveObject.boxTriggerCollider.size = new Vector3(liveObject.boxTriggerCollider.size.x,liveObject.boxTriggerCollider.size.y,liveObject.originalBoxTriggerColliderSizeZ);
                     }
 
-                    if (liveObject.boxColliderSizeDictionary.Count > 0)
+                    if (liveObject.boxCollider != null)
                     {
-                        foreach (KeyValuePair<BoxCollider, float> pair in liveObject.boxColliderSizeDictionary)
-                        {
-                            pair.Key.size = new Vector3(pair.Key.size.x, pair.Key.size.y,pair.Value);
-                        }
+                        liveObject.boxCollider.size = new Vector3(liveObject.boxCollider.size.x,liveObject.boxCollider.size.y,liveObject.originalBoxColliderSizeZ);
                     }
                 }
             }
-
+//            foreach (var objectInGame in gameObjects)
+//                if (objectInGame != null)
+//                {
+//                    var objPos = objectInGame.transform.position;
+//                    objPos = new Vector3(objPos.x, objPos.y,
+//                        originalZ);
+//                    objectInGame.transform.position = objPos;
+//                    if (objectInGame.layer == LayerMask.NameToLayer("Enemy"))
+//                    {
+//                        objectInGame.GetComponent<Rigidbody>().constraints =
+//                            RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionZ;
+//                    }
+//                    else if (objectInGame.layer == LayerMask.NameToLayer("Player"))
+//                    {
+//                        objectInGame.GetComponent<Rigidbody>().constraints =
+//                            RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionZ;
+//                    }
+//                    else if (objectInGame.layer == LayerMask.NameToLayer("Environment"))
+//                    {
+//                    }
+//    
+//                }
         }
         else
         {
@@ -108,23 +123,32 @@ public class GameManager : MonoBehaviour
             {
                 if (liveObject != null)
                 {
-                    if (liveObject.boxTriggerColliderSizeDictionary.Count > 0)
+                    if (liveObject.boxTriggerCollider != null)
                     {
-                        foreach (KeyValuePair<BoxCollider, float> pair in liveObject.boxTriggerColliderSizeDictionary)
-                        {
-                            pair.Key.size = new Vector3(pair.Key.size.x, pair.Key.size.y,1000);
-                        }
+                        liveObject.originalBoxTriggerColliderSizeZ = liveObject.boxTriggerCollider.size.z;
+                        liveObject.boxTriggerCollider.size = new Vector3(liveObject.boxTriggerCollider.size.x,liveObject.boxTriggerCollider.size.y,1000);
                     }
-                    
-                    if (liveObject.boxColliderSizeDictionary.Count > 0)
+
+                    if (liveObject.boxCollider != null)
                     {
-                        foreach (KeyValuePair<BoxCollider, float> pair in liveObject.boxColliderSizeDictionary)
-                        {
-                            pair.Key.size = new Vector3(pair.Key.size.x, pair.Key.size.y,1000);
-                        }
+                        liveObject.originalBoxColliderSizeZ = liveObject.boxCollider.size.z;
+                        liveObject.boxCollider.size = new Vector3(liveObject.boxCollider.size.x,liveObject.boxCollider.size.y,1000);
                     }
                 }
             }
+//            originalZ = player.transform.position.z;
+//            foreach (var objectInGame in gameObjects)
+//            {
+//                if (objectInGame != null)
+//                {
+//                    var objPos = objectInGame.transform.position;
+//                    objPos = new Vector3(objPos.x, objPos.y,
+//                        Random.Range(widthHigherPoint, widthLowerPoint));
+//                    objectInGame.transform.position = objPos;
+//                    objectInGame.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
+//    
+//                }
+//            }
         }
     }
 

@@ -53,6 +53,7 @@ public class CameraEffect : MonoBehaviour
 
     private void ChangeSizeToTargetSize()
     {
+        print(_camera.orthographicSize+" "+destinationCameraSize+" "+sizeSmoothValue);
         Camera.main.orthographicSize =
             Mathf.Lerp(Camera.main.orthographicSize, destinationCameraSize, sizeSmoothValue);
     }

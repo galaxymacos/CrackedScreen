@@ -8,7 +8,7 @@ public class fenceSystemScript : MonoBehaviour
     [SerializeField] private float duration3s;
     [SerializeField] private float duration2s;
     [SerializeField] private float duration1p8s;
-    private float durationRandom1;
+    private float durationRandom1, durationRandom2;
     private GameObject obj0,obj1,obj2, obj3, obj4, obj5, obj6;
     private bool fenceRun1, fenceRun2, fenceRun3, fenceRun4, fenceRun5, fenceRun6;
     private float duration1s0=1, duration1s1=1, duration1s2=1, duration1s3=1, duration1s4=1, duration1s5=1, duration1s6=1;
@@ -21,6 +21,7 @@ public class fenceSystemScript : MonoBehaviour
         duration2s = 2;
         duration1p8s = 1.8f;
         durationRandom1 = GetRandomNumber();
+        durationRandom2= GetRandomNumber();
     }
 
     // Update is called once per frame
@@ -30,6 +31,7 @@ public class fenceSystemScript : MonoBehaviour
         Fence2();
         Fence3();
         Fence4();
+        Fence5();
     }
 
    private int GetRandomNumber()
@@ -104,7 +106,6 @@ public class fenceSystemScript : MonoBehaviour
     void Fence4()
     {
         float temp = GetRandomNumber();
-        Debug.Log(durationRandom1);
         durationRandom1 -= Time.deltaTime;
         if (durationRandom1 < 0)
         {
@@ -120,6 +121,28 @@ public class fenceSystemScript : MonoBehaviour
                 Destroy(obj3.gameObject);
                 duration1s3 = 1;
                 fenceRun4 = false;
+            }
+        }
+    }
+
+    void Fence5()
+    {
+        float temp = GetRandomNumber();
+        durationRandom2 -= Time.deltaTime;
+        if (durationRandom2 < 0)
+        {
+            obj4 = Instantiate(fences[4]);
+            durationRandom2 = temp + 1;
+            fenceRun5 = true;
+        }
+        if (fenceRun5)
+        {
+            duration1s4 -= Time.deltaTime;
+            if (duration1s4 < 0)
+            {
+                Destroy(obj4.gameObject);
+                duration1s4 = 1;
+                fenceRun5 = false;
             }
         }
     }

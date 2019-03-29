@@ -107,6 +107,7 @@ public class DashUpper : Skill
             GameManager.Instance.animator.SetTrigger("Dash Uppercut");
             playerController.canControl = false;
 
+            print("playing skill");
             base.Play();
             _tookDamagePhaseOne = false;
             _tookDamagePhaseTwo = false;

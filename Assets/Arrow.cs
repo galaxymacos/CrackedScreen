@@ -30,6 +30,7 @@ public class Arrow : MonoBehaviour
 
     public void HitPlayer()
     {
+        print("arrow hits player");
         PlayerProperty.playerClass.TakeDamage(damage);
         PlayerProperty.playerClass.GetKnockOff(transform.position);
         Destroy(gameObject);

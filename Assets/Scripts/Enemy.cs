@@ -107,7 +107,7 @@ public abstract class Enemy : MonoBehaviour
         }
         else
         {
-//            print("Floating text is missing");
+            print("Floating text is missing");
         }
         
     }
@@ -130,45 +130,9 @@ public abstract class Enemy : MonoBehaviour
         {
             return;
         }
-//        print("Try to knock up the enemy");
-        if (_enemyCurrentState == EnemyState.GotHitToAir)
-        {
-            GetComponent<Animator>().SetTrigger("HitToAir");
-        }
-        FaceBasedOnPlayerPosition();
+        print($"Add force V:({force.x},{force.y},{force.z})");
         rb.AddForce(force);
         ChangeEnemyState(EnemyState.GotHitToAir);
-    }
-    
-    public void FaceBasedOnPlayerPosition() {
-        if (AnimationPlaying())    // Can't change facing when boss is using its ability
-        {
-            return;
-        }
-        if (PlayerIsAtRight()) {
-            Flip(true);
-        }
-        else
-        {
-            Flip(false);
-        }
-    }
-    
-    public void FaceBasedOnMoveDirection()
-    {
-        
-        if (rb.velocity.x > 0)
-        {
-            Flip(true);
-        }
-        else
-        {
-            Flip(false);
-        }
-    }
-    
-    public bool PlayerIsAtRight() {
-        return PlayerProperty.playerPosition.x - transform.position.x > 0;
     }
 
     /// <summary>
@@ -264,11 +228,6 @@ public abstract class Enemy : MonoBehaviour
     /// </summary>
     public abstract void Move();
 
-    /// <summary>
-    /// This method return whether the player is current playing an ability animation
-    /// </summary>
-    /// <returns></returns>
-    public abstract bool AnimationPlaying();
 
     public void Attack()
     {

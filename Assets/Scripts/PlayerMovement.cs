@@ -30,6 +30,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float gravity = 1000f;
 
     private bool hasKnockUp;
+    private bool is3D;
     private bool isFallingDown;
 
     public bool isGliding;
@@ -150,18 +151,23 @@ public class PlayerMovement : MonoBehaviour
         if (GameManager.Instance.PlayerDying) return;
         if (CheckIfPlayerOnGround()) MovePlayerOnGround();
 
-        animator.SetBool("Fall Down", VerticalVelocityIsNegative());
-        if (VerticalVelocityIsNegative() && playerCurrentState != PlayerState.KnockUp)
+        animator.SetBool("Fall Down", isFallDown());
+        if (isFallDown() && playerCurrentState != PlayerState.KnockUp) ChangePlayerState(PlayerState.FallDown);
+        if (isGliding)
         {
-            ChangePlayerState(PlayerState.FallDown);
+            FallDown();
+            isGliding = false;
         }
-        ApplyGravity();
+        else
+        {
+            ApplyGravity();
+        }
     }
 
-    public bool VerticalVelocityIsNegative()
+    public bool isFallDown()
     {
         if (CheckIfPlayerOnGround()) return false;
-        return rb.velocity.y < -0.01f;
+        return rb.velocity.y < -0.1f;
     }
 
     private void ApplyGravity()
@@ -183,61 +189,51 @@ public class PlayerMovement : MonoBehaviour
 
             return;
         }
-        Vector3 movement;
+
         if (GameManager.Instance.is3D)
         {
-            
             if (playerCurrentState == PlayerState.Run)
             {
-                movement = new Vector3(
+                var movement = new Vector3(
                     horizontalMovement * runSpeed * Time.fixedDeltaTime,
                     0,
                     verticalMovement * verticalMoveSpeed * Time.fixedDeltaTime
                 );
+                transform.Translate(movement);
             }
             else
             {
-                movement = new Vector3(
+                var movement = new Vector3(
                     horizontalMovement * moveSpeed * Time.fixedDeltaTime,
                     0,
                     verticalMovement * verticalMoveSpeed * Time.fixedDeltaTime
                 );
+                transform.Translate(movement);
             }
         }
 
-        else
+        if (!GameManager.Instance.is3D)
         {
             if (playerCurrentState == PlayerState.Run)
             {
-                movement = new Vector3(
+                var movement = new Vector3(
                     horizontalMovement * runSpeed * Time.fixedDeltaTime,
                     0,
                     0
                 );
 
+                transform.Translate(movement);
             }
             else
             {
-                
-                movement = new Vector3(
+                var movement = new Vector3(
                     horizontalMovement * moveSpeed * Time.fixedDeltaTime,
                     0,
                     0
                 );
+                transform.Translate(movement);
             }
         }
-
-
-        if (movement.x > 0 && PlayerHasWallAtRight())
-        {
-            movement = new Vector3(0,movement.y,movement.z);
-        }
-        else if (movement.x < 0 && PlayerHasWallAtLeft())
-        {
-            movement = new Vector3(0,movement.y,movement.z);
-        }
-        transform.Translate(movement);
-
     }
 
     public void Jump()
@@ -262,12 +258,12 @@ public class PlayerMovement : MonoBehaviour
     public void FallDown()
     {
         var playerVelocity = rb.velocity;
-//        if (rb.velocity.y > Mathf.Epsilon)
-//        {
+        if (rb.velocity.y > Mathf.Epsilon)
+        {
             playerVelocity = new Vector3(playerVelocity.x, playerVelocity.y - dropdownSpeed * Time.fixedDeltaTime,
                 playerVelocity.z);
             rb.velocity = playerVelocity;
-//        }
+        }
     }
 
     private void ResetVerticalVelocity()
@@ -282,67 +278,36 @@ public class PlayerMovement : MonoBehaviour
         LayerMask groundLayer = 1 << 11;
         LayerMask slopeLayer = 1 << 15;
         var position = transform.position;
-        var hasHitRightGround = Physics.Raycast(position+new Vector3(GetComponent<BoxCollider>().size.x/2,0), Vector3.down,
-            GetComponent<BoxCollider>().size.y / 2 + 0.01f, groundLayer);
-        var hasHitLeftGround = Physics.Raycast(position-new Vector3(GetComponent<BoxCollider>().size.x/2,0), Vector3.down,
+        var hasHitGround = Physics.Raycast(position, Vector3.down,
             GetComponent<BoxCollider>().size.y / 2 + 0.01f, groundLayer);
         var hasHitSlope = Physics.Raycast(position, Vector3.down,
             GetComponent<BoxCollider>().size.y / 2 + 0.4f, slopeLayer);
 
-        isGrounded = (hasHitRightGround || hasHitLeftGround) && rb.velocity.y <= 0 || hasHitSlope;
+        isGrounded = hasHitGround && rb.velocity.y <= 0 || hasHitSlope;
         if (isGrounded)
             if (hasKnockUp && rb.velocity.y <= 0) // hasKnockUp TODO is this variable really necessery?
             {
                 hasKnockUp = false;
                 MovePlayerOnGround();
+                print("Recover player control");
                 PlayerProperty.controller.canControl = true;
             }
 
         return isGrounded;
     }
 
-    private bool PlayerHasWallAtRight()
-    {
-        LayerMask wallLayer = 1 << 14;
-        var position = transform.position;
-        var hasHitRightWall = Physics.Raycast(position, Vector3.right, GetComponent<BoxCollider>().size.x / 2 + 0.01f,
-            wallLayer);
-        return hasHitRightWall;
-    }
-
-    private bool PlayerHasWallAtLeft()
-    {
-        LayerMask wallLayer = 1 << 14;
-        var position = transform.position;
-        var hasHitRightWall = Physics.Raycast(position, Vector3.left, GetComponent<BoxCollider>().size.x / 2 + 0.01f,
-            wallLayer);
-        return hasHitRightWall;
-    }
-
     private void OnCollisionExit(Collision other)
     {
-        if (other.gameObject.CompareTag("MovingPlatform"))
-        {
-            transform.parent = null;
-        }
         if (other.gameObject.layer == LayerMask.NameToLayer("Slope"))
             if (rb.velocity.y > 0)
                 isGrounded = false;
     }
 
-    private void OnCollisionStay(Collision other)
-    {
-        if (other.gameObject.CompareTag("MovingPlatform"))
-        {
-            transform.parent = other.transform.Find("PlatformNode").transform;
-        }
-    }
 
     public void MovePlayerOnGround()
     {
         if (GameManager.Instance.player.GetComponent<PlayerController>().horizontalMovement > 0 ||
-            GameManager.Instance.player.GetComponent<PlayerController>().horizontalMovement < 0||
-            ( GameManager.Instance.player.GetComponent<PlayerController>().verticalMovement < 0|| GameManager.Instance.player.GetComponent<PlayerController>().verticalMovement > 0) && GameManager.Instance.is3D)
+            GameManager.Instance.player.GetComponent<PlayerController>().horizontalMovement < 0)
         {
             if (Input.GetKey(KeyCode.LeftShift))
             {
@@ -360,7 +325,6 @@ public class PlayerMovement : MonoBehaviour
             if (playerCurrentState != PlayerState.Block && playerCurrentState != PlayerState.Jump)
                 ChangePlayerState(PlayerState.Stand);
         }
-
     }
 
     public void ChangeAnimationAccordingToAction()

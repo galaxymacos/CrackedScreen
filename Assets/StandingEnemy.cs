@@ -28,11 +28,6 @@ public class StandingEnemy : Enemy
         return;
     }
 
-    public override bool AnimationPlaying()
-    {
-        return false;
-    }
-
     public override void InteractWithPlayer()
     {
         
