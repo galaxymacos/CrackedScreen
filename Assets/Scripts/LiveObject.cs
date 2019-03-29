@@ -25,6 +25,7 @@ public class LiveObject : MonoBehaviour
                 boxColliderSizeDictionary.Add(bc,bc.size.z);
             }
         }
+
     }
 
     private void Start()
